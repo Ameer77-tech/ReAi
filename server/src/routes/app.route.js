@@ -1,5 +1,8 @@
 import express from "express";
-import { generateResume } from "../controllers/app.controller.js";
+import {
+  generateResume,
+  getUserDetails,
+} from "../controllers/app.controller.js";
 const appRouter = express.Router();
 
 appRouter.post("/details", (req, res) => {
@@ -7,5 +10,6 @@ appRouter.post("/details", (req, res) => {
 });
 
 appRouter.get("/generate", generateResume);
+appRouter.post("/user-details", getUserDetails);
 
 export default appRouter;

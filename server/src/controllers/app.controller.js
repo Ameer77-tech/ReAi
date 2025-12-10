@@ -1,12 +1,11 @@
 import { GoogleGenAI } from "@google/genai";
+import { ResumeSchema } from "../validation/input.validate.js";
+import { UserDetails } from "../models/user.model.js";
+
 function parseAIJSON(rawString) {
   let cleaned = rawString.replace(/^```(json)?\s*/, "");
-
-  // Step 2: Remove trailing ```
   cleaned = cleaned.replace(/```$/, "");
-
   cleaned = cleaned.trim();
-
   return JSON.parse(cleaned);
 }
 
@@ -27,5 +26,22 @@ export const generateResume = async (req, res) => {
     console.log(err);
 
     res.status(500).json({ reply: "Server Error", success: false, err });
+  }
+};
+
+export const getUserDetails = async (req, res) => {
+  try {
+    ResumeSchema.parse(req.body);
+    try {
+      const created = await UserDetails.create({
+        id: "8988832424jkhdfhiurhgfv",
+        data: req.body,
+      });
+      res.status(403).json({ reply: "Created Record", success: true });
+    } catch (err) {
+      res.status(403).json({ reply: "Db Error", success: false, err });
+    }
+  } catch (err) {
+    res.status(403).json({ reply: "Invalid Input", success: false });
   }
 };
