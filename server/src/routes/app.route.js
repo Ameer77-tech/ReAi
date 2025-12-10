@@ -9,7 +9,7 @@ appRouter.post("/details", (req, res) => {
   res.send(req.body);
 });
 
-appRouter.get("/generate", generateResume);
+appRouter.get("/generate/:id", generateResume);
 appRouter.post("/user-details", getUserDetails);
 
 export default appRouter;

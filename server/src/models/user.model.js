@@ -10,6 +10,7 @@ const personalInfoSchema = new mongoose.Schema(
     github: { type: String },
     website: { type: String },
     location: { type: String },
+    picture: { type: String },
   },
   { _id: false }
 );
@@ -72,9 +73,9 @@ const volunteerSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// --- Main Resume Schema ---
 const userDetailsSchema = new mongoose.Schema(
   {
+    id: { type: String, required: true },
     personal_information: { type: personalInfoSchema, required: true },
     summary: { type: String, required: true },
     experience: { type: [experienceSchema], required: true },

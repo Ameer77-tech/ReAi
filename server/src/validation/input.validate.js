@@ -3,12 +3,13 @@ import { z } from "zod";
 // --- Personal Information ---
 const PersonalInfoSchema = z.object({
   name: z.string().min(2, "Name is required"),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid email"),
   phone: z.string().optional(),
-  linkedin: z.string().url().optional(),
-  github: z.string().url().optional(),
-  website: z.string().url().optional(),
+  linkedin: z.url().optional(),
+  github: z.url().optional(),
+  website: z.url().optional(),
   location: z.string().optional(),
+  picture: z.string().optional(),
 });
 
 // --- Experience ---
