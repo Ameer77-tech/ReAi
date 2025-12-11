@@ -1,37 +1,38 @@
 // rateLimit.js
 const rateLimit = ({ windowMs, max }) => {
-  // Store: { "ip": [timestamps] }
   const requests = new Map();
 
   return (req, res, next) => {
     const now = Date.now();
-    const ip = req.ip;
+    const windowStart = now - windowMs;
+    const ip = req.ip || req.connection.remoteAddress;
+
+    if (!ip) {
+      console.log("⚠️ RateLimiter: No IP detected!");
+      return next(); // DO NOT BLOCK ENTIRE SERVER
+    }
 
     if (!requests.has(ip)) {
       requests.set(ip, []);
     }
 
-    // Filter timestamps inside the window
-    const windowStart = now - windowMs;
-    const requestTimes = requests.get(ip).filter((ts) => ts > windowStart);
+    // Filter only timestamps that are still within window
+    const timestamps = requests.get(ip).filter((ts) => ts > windowStart);
 
-    // Update store
-    requestTimes.push(now);
-    requests.set(ip, requestTimes);
+    timestamps.push(now);
+    requests.set(ip, timestamps);
 
-    // Check limit
-    if (requestTimes.length > max) {
+    if (timestamps.length > max) {
       return res.status(429).json({
         success: false,
         reply: "Too many requests. Please try again later.",
         remaining: 0,
-        retryAfter: `${Math.ceil(windowMs / 1000)} seconds`,
+        retryAfter: Math.ceil(windowMs / 1000),
       });
     }
 
-    // Attach info
     res.setHeader("X-RateLimit-Limit", max);
-    res.setHeader("X-RateLimit-Remaining", max - requestTimes.length);
+    res.setHeader("X-RateLimit-Remaining", max - timestamps.length);
     res.setHeader("X-RateLimit-Reset", windowMs);
 
     next();

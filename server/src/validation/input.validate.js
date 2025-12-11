@@ -50,7 +50,7 @@ const AwardSchema = z.object({
 });
 
 // --- Resume Schema ---
-export const ResumeSchema = z.object({
+export const userDetailsSchema = z.object({
   personal_information: PersonalInfoSchema,
   summary: z.string().min(10, "Summary is required"),
   experience: z

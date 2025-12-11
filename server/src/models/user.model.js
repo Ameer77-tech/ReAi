@@ -35,7 +35,7 @@ const educationSchema = new mongoose.Schema(
     location: { type: String },
     dates: { type: String, required: true },
     gpa: { type: String },
-    honors: { type: String },
+    honors: { type: [String] },
     coursework: { type: [String] },
   },
   { _id: false }
