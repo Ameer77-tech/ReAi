@@ -3,13 +3,14 @@ import {
   generateResume,
   getUserDetails,
 } from "../controllers/app.controller.js";
+import rateLimit from "../middlewares/rateLimit.js";
 const appRouter = express.Router();
 
 appRouter.post("/details", (req, res) => {
   res.send(req.body);
 });
 
-appRouter.get("/generate/:id", generateResume);
+appRouter.get("/generate/:id", rateLimit, generateResume);
 appRouter.post("/user-details", getUserDetails);
 
 export default appRouter;
