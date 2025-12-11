@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  generatePdf,
   generateResume,
   getUserDetails,
 } from "../controllers/app.controller.js";
@@ -12,5 +13,6 @@ appRouter.post("/details", (req, res) => {
 
 appRouter.get("/generate/:id", generateResume);
 appRouter.post("/user-details", getUserDetails);
+appRouter.post("/download", generatePdf);
 
 export default appRouter;
