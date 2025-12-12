@@ -1,19 +1,37 @@
-import React from 'react'
-import { Card, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import Image from 'next/image'
-import { manrope  } from '@/fonts/Fonts'
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { manrope } from '@/fonts/Fonts';
+import { Button } from '../ui/button';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 
 const Header = () => {
   return (
-    <Card className='mt-5'>
-        <CardHeader className='flex lg:justify-around items-center'>
-     <div className='flex items-center'>
-        <Image alt="logo" src={"/logo.png"} width={40} height={50}></Image>
-        <CardTitle className={`${manrope.className} antialiased lg:text-2xl bg-linear-to-r from-primary to-accent bg-clip-text text-transparent`}>ReAi</CardTitle>
-        </div>
-        </CardHeader>
-    </Card>
-  )
-}
+    <header className="flex items-center justify-between px-8 py-4 bg-background/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="flex items-center">
+        <Image alt="logo" src="/logo.png" width={40} height={50} />
+        <h1 className={`${manrope.className} text-xl lg:text-2xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent`}>
+          ReAi
+        </h1>
+      </div>
 
-export default Header
+      <div className="items-center gap-5 hidden lg:flex">
+        <Link href="/docs" className="text-muted hover:text-foreground transition">
+            Home
+        </Link>
+         <Link href="/docs" className="text-muted hover:text-foreground transition">
+            How it Works
+        </Link>
+         <Link href="/docs" className="text-muted hover:text-foreground transition">
+            Templates
+        </Link>
+          </div>
+        <Button className="flex items-center gap-2">
+          Try It <ArrowRightCircleIcon className="w-5 h-5" />
+        </Button>
+    
+    </header>
+  );
+};
+
+export default Header;
