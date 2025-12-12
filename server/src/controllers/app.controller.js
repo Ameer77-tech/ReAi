@@ -76,7 +76,6 @@ Output ONLY valid JSON.
         contents: prompt,
       });
       let cleaned = parseAIJSON(response.text);
-      console.log("AI", cleaned);
       try {
         ResumeSchema.parse(cleaned);
         try {

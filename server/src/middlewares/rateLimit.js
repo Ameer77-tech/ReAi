@@ -1,42 +1,11 @@
-// rateLimit.js
-const rateLimit = ({ windowMs, max }) => {
-  const requests = new Map();
+import rateLimit from "express-rate-limit";
 
-  return (req, res, next) => {
-    const now = Date.now();
-    const windowStart = now - windowMs;
-    const ip = req.ip || req.connection.remoteAddress;
+const resumeLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  max: 2, // 2 requests per day
+  message: { error: "Daily limit reached. Try again tomorrow." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
-    if (!ip) {
-      console.log("⚠️ RateLimiter: No IP detected!");
-      return next(); // DO NOT BLOCK ENTIRE SERVER
-    }
-
-    if (!requests.has(ip)) {
-      requests.set(ip, []);
-    }
-
-    // Filter only timestamps that are still within window
-    const timestamps = requests.get(ip).filter((ts) => ts > windowStart);
-
-    timestamps.push(now);
-    requests.set(ip, timestamps);
-
-    if (timestamps.length > max) {
-      return res.status(429).json({
-        success: false,
-        reply: "Too many requests. Please try again later.",
-        remaining: 0,
-        retryAfter: Math.ceil(windowMs / 1000),
-      });
-    }
-
-    res.setHeader("X-RateLimit-Limit", max);
-    res.setHeader("X-RateLimit-Remaining", max - timestamps.length);
-    res.setHeader("X-RateLimit-Reset", windowMs);
-
-    next();
-  };
-};
-
-export default rateLimit;
+export default resumeLimiter;
