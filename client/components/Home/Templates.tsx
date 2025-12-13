@@ -14,7 +14,7 @@ const Templates = () => {
   return (
     <div className="p-6" id="templates">
       <h1 className="text-4xl font-extrabold mb-20 text-center">
-        Example Templates
+        Templates
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 place-items-center">
         {templates.map((template, index) => (
