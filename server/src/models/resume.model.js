@@ -87,8 +87,13 @@ const userDetailsSchema = new mongoose.Schema(
     languages: { type: [String] },
     interests: { type: [String] },
     volunteer: { type: [volunteerSchema] },
+    expiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 5 * 60 * 1000),
+      index: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, expires: "5m" }
 );
 
 export const Resume = mongoose.model("Resumes", userDetailsSchema);

@@ -5,6 +5,8 @@ import {
   getUserDetails,
 } from "../controllers/app.controller.js";
 import resumeLimiter from "../middlewares/rateLimit.js";
+import Validate from "../validation/Validate.js";
+import { userDetailsSchema } from "../validation/input.validate.js";
 const appRouter = express.Router();
 
 appRouter.post("/details", (req, res) => {
@@ -12,7 +14,7 @@ appRouter.post("/details", (req, res) => {
 });
 
 appRouter.get("/generate/:id", resumeLimiter, generateResume);
-appRouter.post("/user-details", getUserDetails);
+appRouter.post("/user-details", Validate(userDetailsSchema), getUserDetails);
 appRouter.post("/download", generatePdf);
 
 export default appRouter;
