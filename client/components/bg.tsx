@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { motion } from "motion/react"
 
 export default function VantaDots({ children }: { children: React.ReactNode }) {
   const vantaRef = useRef<HTMLDivElement | null>(null);
@@ -37,8 +38,15 @@ export default function VantaDots({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div ref={vantaRef} style={{ width: '100%', height: '100vh', position: 'fixed' }}>
+    <motion.div 
+    initial={{
+      opacity : 0
+    }}
+    animate={{
+      opacity : 1
+    }}
+    ref={vantaRef} style={{ width: '100%', height: '100vh', position: 'fixed' }}>
       {children}
-    </div>
+    </motion.div>
   );
 }
