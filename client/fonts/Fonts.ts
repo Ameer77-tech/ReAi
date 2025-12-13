@@ -8,13 +8,13 @@ export const manrope = Manrope({
 
 export const mulish = Mulish({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-mulish",
 });
 
 export const quicksand = Quicksand({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "600", "700"],
   variable: "--font-quicksand",
 });
 
