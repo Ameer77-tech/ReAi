@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { motion } from "motion/react"
+import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
 
 export default function VantaDots({ children }: { children: React.ReactNode }) {
   const vantaRef = useRef<HTMLDivElement | null>(null);
@@ -11,11 +11,10 @@ export default function VantaDots({ children }: { children: React.ReactNode }) {
     let DOTS: any;
 
     async function initVanta() {
-      // Only import on client side
-      const THREE = (await import('three')).THREE || (await import('three'));
+      const THREE = (await import("three")).THREE || (await import("three"));
       (window as any).THREE = THREE;
 
-      DOTS = (await import('vanta/dist/vanta.dots.min')).default;
+      DOTS = (await import("vanta/dist/vanta.dots.min")).default;
 
       if (vantaRef.current && !vantaEffect.current) {
         vantaEffect.current = DOTS({
@@ -25,7 +24,7 @@ export default function VantaDots({ children }: { children: React.ReactNode }) {
           minHeight: 200,
           minWidth: 200,
           backgroundColor: 0x1a1a1a,
-          showLines : false
+          showLines: false,
         });
       }
     }
@@ -38,15 +37,23 @@ export default function VantaDots({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <motion.div 
-    initial={{
-      opacity : 0
-    }}
-    animate={{
-      opacity : 1
-    }}
-    ref={vantaRef} style={{ width: '100%', height: '100vh', position: 'fixed' }}>
-      {children}
-    </motion.div>
+    <>
+      {/* Vanta background */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        ref={vantaRef}
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+
+      {/* Scrollable content */}
+      <div style={{ position: "relative" }}>{children}</div>
+    </>
   );
 }
