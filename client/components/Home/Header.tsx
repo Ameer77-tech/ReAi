@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <>
     <SideBar isOpen={isOpen} setIsOpen={setIsOpen}/>
-    <header className="flex items-center justify-between px-8 py-4 bg-background/80 backdrop-blur-md sticky top-0 z-50">
+    <header className="flex items-center lg:w-4/5 md:w-3/4 w-full justify-between px-8 py-4 bg-background/80 backdrop-blur-md fixed top-10 rounded-xl border left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-center">
         <Image alt="logo" src="/logo.png" width={40} height={50} />
         <h1 className={`${manrope.className} text-xl lg:text-2xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent`}>
@@ -37,8 +37,8 @@ const Header = () => {
         </Button>
         <div className='lg:hidden md:hidden'>
           { isOpen ?  <p onClick={()=>setIsOpen(false)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-</svg></p>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg></p>
 :   <p onClick={()=>setIsOpen(true)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
         </svg></p> }
