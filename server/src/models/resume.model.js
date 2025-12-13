@@ -1,99 +1,113 @@
 import mongoose from "mongoose";
 
-// --- Personal Information ---
-const personalInfoSchema = new mongoose.Schema(
+/* ---------------- HEADER ---------------- */
+const headerSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String },
-    linkedin: { type: String },
-    github: { type: String },
-    website: { type: String },
-    location: { type: String },
-    picture: { type: String },
+    full_name: { type: String, required: true },
+    professional_title: { type: String, required: true },
   },
   { _id: false }
 );
 
-// --- Experience ---
+/* ---------------- CONTACT ---------------- */
+const contactSchema = new mongoose.Schema(
+  {
+    phone: String,
+    email: String,
+    location: String,
+    linkedin: String,
+    website: String,
+    github: String,
+  },
+  { _id: false }
+);
+
+/* ---------------- EXPERIENCE ---------------- */
 const experienceSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    company: { type: String, required: true },
-    location: { type: String },
-    dates: { type: String, required: true },
-    responsibilities: { type: [String], required: true },
+    job_title: { type: String, required: true },
+    employer: { type: String, required: true },
+    location: String,
+    start_date: String,
+    end_date: String,
+    achievements: { type: [String], required: true },
   },
   { _id: false }
 );
 
-// --- Education ---
+/* ---------------- EDUCATION ---------------- */
 const educationSchema = new mongoose.Schema(
   {
     degree: { type: String, required: true },
-    university: { type: String, required: true },
-    location: { type: String },
-    dates: { type: String, required: true },
-    gpa: { type: String },
-    honors: { type: [String] },
-    coursework: { type: [String] },
+    field_of_study: String,
+    institution: { type: String, required: true },
+    location: String,
+    graduation_year: String,
+    honors: [String],
   },
   { _id: false }
 );
 
-// --- Projects ---
+/* ---------------- SKILLS ---------------- */
+const skillsSchema = new mongoose.Schema(
+  {
+    marketing: [String],
+    analytics: [String],
+    tools: [String],
+    soft_skills: [String],
+  },
+  { _id: false }
+);
+
+/* ---------------- PROJECTS ---------------- */
 const projectSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    description: { type: String, required: true },
-    link: { type: String },
-    technologies: { type: [String] },
+    description: String,
+    outcomes: [String],
+    tools_used: [String],
+    link: String,
   },
   { _id: false }
 );
 
-// --- Awards / Certifications ---
-const awardSchema = new mongoose.Schema(
+/* ---------------- CERTIFICATIONS ---------------- */
+const certificationSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    organization: { type: String },
-    date: { type: String },
+    organization: String,
+    date_obtained: String,
   },
   { _id: false }
 );
 
-// --- Volunteer ---
-const volunteerSchema = new mongoose.Schema(
+/* ---------------- MAIN SCHEMA ---------------- */
+const ResumeSchema = new mongoose.Schema(
   {
-    organization: { type: String, required: true },
-    role: { type: String, required: true },
-    dates: { type: String },
-    description: { type: String },
-  },
-  { _id: false }
-);
+    resumeId : { type: String, required: true, unique: true },
 
-const userDetailsSchema = new mongoose.Schema(
-  {
-    resumeId: { type: String, required: true },
-    personal_information: { type: personalInfoSchema, required: true },
-    summary: { type: String, required: true },
-    experience: { type: [experienceSchema], required: true },
+    header: { type: headerSchema, required: true },
+    contact_information: { type: contactSchema, required: true },
+
+    professional_summary: { type: String, required: true },
+
+    work_experience: { type: [experienceSchema], required: true },
     education: { type: [educationSchema], required: true },
-    skills: { type: [String], required: true },
-    projects: { type: [projectSchema] },
-    awards: { type: [awardSchema] },
-    certifications: { type: [awardSchema] },
-    languages: { type: [String] },
-    interests: { type: [String] },
-    volunteer: { type: [volunteerSchema] },
+
+    key_skills: { type: skillsSchema, required: true },
+
+    projects: [projectSchema],
+    certifications: [certificationSchema],
+
+    /* TTL — auto delete after 5 minutes */
     expiresAt: {
       type: Date,
       default: () => new Date(Date.now() + 5 * 60 * 1000),
-      index: true,
+      index: { expires: "5m" },
     },
   },
-  { timestamps: true, expires: "5m" }
+  { timestamps: true }
 );
 
-export const Resume = mongoose.model("Resumes", userDetailsSchema);
+export const Resume =
+  mongoose.models.Resume || mongoose.model("Resumes", ResumeSchema);

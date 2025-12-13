@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { manrope } from '@/fonts/Fonts';
+import { quicksand } from '@/fonts/Fonts';
 import { Button } from '../ui/button';
 import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
@@ -15,8 +15,8 @@ const Header = () => {
     <header className="flex items-center lg:w-4/5 md:w-3/4 w-full justify-between px-8 py-4 bg-background/80 backdrop-blur-md fixed top-10 rounded-xl border left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-center">
         <Image alt="logo" src="/logo.png" width={40} height={50} />
-        <h1 className={`${manrope.className} text-xl lg:text-2xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent`}>
-          ReAi
+        <h1 className={`${quicksand.className} text-2xl lg:text-2xl font-bold bg-linear-to-r from-primary to-primary/50 bg-clip-text text-transparent`}>
+          REAI
         </h1>
       </div>
 

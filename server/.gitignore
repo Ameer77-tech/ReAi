@@ -63,3 +63,5 @@ jest.cache
 # Misc
 *.tgz
 *.log.*
+
+resume.json
