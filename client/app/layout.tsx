@@ -1,8 +1,9 @@
+import NProgressProvider from "@/components/progressLoad";
 import "./globals.css";
-import { mulish, manrope } from "@/fonts/Fonts"
-import { metadata } from "@/lib/MetaData"
+import { mulish, manrope } from "@/fonts/Fonts";
+import { metadata } from "@/lib/MetaData";
 
-export { metadata }
+export { metadata };
 
 export default function RootLayout({
   children,
@@ -14,6 +15,7 @@ export default function RootLayout({
       <body
         className={`${mulish.className} ${manrope.className} font-extrabold antialiased bg-`}
       >
+        <NProgressProvider />
         {children}
       </body>
     </html>

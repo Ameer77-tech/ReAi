@@ -7,6 +7,8 @@ import { ArrowRight } from "lucide-react";
 import { quicksand } from "@/fonts/Fonts";
 import { motion, type Variants } from "framer-motion";
 import GradientShine from "./GradientShine";
+import { useRouter } from "next/navigation";
+import NProgress from "nprogress";
 
 const parentVariants: Variants = {
   initial: {
@@ -37,6 +39,7 @@ const childVariants: Variants = {
 };
 
 const Hero = () => {
+  const router = useRouter();
   return (
     <motion.div
       variants={parentVariants}
@@ -85,6 +88,11 @@ const Hero = () => {
         <motion.div variants={childVariants}>
           <CardFooter>
             <Button
+              onClick={() => {
+                router.push("/resume/builder");
+                NProgress.start();
+                setTimeout(() => NProgress.done(), 3000);
+              }}
               className={`rounded-xl ${quicksand.className} font-black antialiased cursor-pointer py-7 text-background bg-linear-to-r from-primary from-50% to-background/60`}
             >
               Generate My Resume <ArrowRight />
