@@ -57,7 +57,7 @@ const Hero = () => {
               className="
               inline-flex items-center gap-2
               rounded-full px-4 py-1.5
-              bg-white/10 backdrop-blur-md
+              bg-white/10 backdrop-blur-xs
               border border-white/20
               text-xs uppercase tracking-wider
               text-white/80
