@@ -60,7 +60,7 @@ interface Certification {
 
 interface ResumeStore {
   templateId: number;
-
+  step : number,
   header: Header;
   contact_information: ContactInformation;
   professional_summary: string;
@@ -92,6 +92,7 @@ interface ResumeStore {
   setSkills: (value: Partial<KeySkills>) => void;
 
   setTemplate: (id: number) => void;
+  setStep : (s : number) => void
 }
 
 /* ───────────── STORE ───────────── */
@@ -100,7 +101,7 @@ export const useResumeStore = create<ResumeStore>()(
   persist(
     (set) => ({
       templateId: 1,
-
+      step : 1,
       header: {
         full_name: "",
         professional_title: "",
@@ -205,6 +206,8 @@ export const useResumeStore = create<ResumeStore>()(
 
       setTemplate: (id) =>
         set({ templateId: id }),
+
+      setStep : (s) => set({ step : s })
     }),
     {
       name: "resume-builder-storage",
