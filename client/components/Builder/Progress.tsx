@@ -7,20 +7,46 @@ import { motion } from "motion/react";
 const ProgressBar = () => {
   const step = useResumeStore((state) => state.step);
   return (
-    <div className="relative w-2 h-100">
-      <Progress value={(step / 7) * 100} className="absolute top-0 left-0 duration-700" />
+    <div className="relative lg:w-2 lg:h-100 w-[70%] h-2">
+      <Progress
+        mobileview={false}
+        value={(step / 7) * 100}
+        className="lg:absolute top-0 left-0 hidden lg:block"
+      />
+      <Progress
+        mobileview={true}
+        value={(step / 7) * 100}
+        className="lg:absolute top-0 left-0 lg:hidden block w-full"
+      />
       <motion.div
+        initial={{
+          opacity: 0,
+        }}
         animate={{
+          opacity: 1,
           top: `${(step / 7) * 100}%`,
         }}
         transition={{
           duration: 0.15,
           ease: "easeInOut",
         }}
-        // style={{
-        //   top: `${(step / 7) * 100}%`,
-        // }}
-        className="w-5 h-5 rounded-full bg-primary text-black font-black absolute flex justify-center items-center left-4"
+        className="w-5 h-5 hidden rounded-full bg-primary text-black font-black absolute lg:flex justify-center items-center left-4"
+      >
+        {step}
+      </motion.div>
+      <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          left: `${(step / 7) * 100}%`,
+        }}
+        transition={{
+          duration: 0.15,
+          ease: "easeInOut",
+        }}
+        className="w-5 h-5 lg:hidden rounded-full bg-primary text-black font-black absolute flex justify-center items-center -top-8"
       >
         {step}
       </motion.div>
