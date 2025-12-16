@@ -16,10 +16,10 @@ function Progress({
     <ProgressPrimitive.Root
       data-slot="progress"
       className={cn(
-        "bg-primary/20 relative overflow-hidden rounded-full",
+        "relative overflow-hidden rounded-full bg-transparent",
         mobileview
           ? "h-2 w-[60%]" // mobile → horizontal bar
-          : "w-2 h-100", // desktop → vertical bar
+          : "w-2 h-full", // desktop → vertical bar
         className
       )}
       {...props}

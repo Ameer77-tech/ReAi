@@ -10,14 +10,14 @@ export default function GlowBorder({ children }: Props) {
     <div className="relative rounded-xl p-0.5 overflow-hidden lg:w-3/4 w-full h-180 lg:h-150">
       {/* animated glow */}
       <motion.div
-        className="absolute inset-0 blur-md opacity-80"
+        className="absolute inset-0 opacity-80"
         style={{
           backgroundImage:
             "conic-gradient(from 0deg, #f97316, #fdba74, #f97316)",
         }}
         animate={{ rotate: 360 }}
         transition={{
-          duration: 8,
+          duration: 25,
           repeat: Infinity,
           ease: "linear",
         }}

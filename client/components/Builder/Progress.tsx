@@ -11,12 +11,12 @@ const ProgressBar = () => {
       <Progress
         mobileview={false}
         value={(step / 7) * 100}
-        className="lg:absolute top-0 left-0 hidden lg:block"
+        className="lg:absolute top-0 left-0 hidden lg:block rounded-none"
       />
       <Progress
         mobileview={true}
         value={(step / 7) * 100}
-        className="lg:absolute top-0 left-0 lg:hidden block w-full"
+        className="lg:absolute top-0 left-0 lg:hidden block w-full rounded-none"
       />
       <motion.div
         initial={{
