@@ -3,6 +3,31 @@ import { persist } from "zustand/middleware";
 
 /* ───────────── TYPES ───────────── */
 
+const initialState = {
+  step: 1,
+  templateId : 0,
+  header: {
+    full_name: "",
+    professional_title: "",
+  },
+
+  contact_information: {
+    phone: "",
+    email: "",
+    location: "",
+    linkedin: "",
+    website: "",
+    github: "",
+  },
+
+  professional_summary : "",
+  education: [],
+  experience: [],
+  skills: [],
+  projects: [],
+};
+
+
 interface Header {
   full_name: string;
   professional_title: string;
@@ -90,7 +115,7 @@ interface ResumeStore {
 
   // skills
   setSkills: (value: Partial<KeySkills>) => void;
-
+  reset : () => void;
   setTemplate: (id: number) => void;
   setStep : (s : number) => void
 }
@@ -100,7 +125,7 @@ interface ResumeStore {
 export const useResumeStore = create<ResumeStore>()(
   persist(
     (set) => ({
-      templateId: 1,
+      templateId: 0,
       step : 1,
       header: {
         full_name: "",
@@ -206,7 +231,7 @@ export const useResumeStore = create<ResumeStore>()(
 
       setTemplate: (id) =>
         set({ templateId: id }),
-
+      reset: () => set(initialState),
       setStep : (s) => set({ step : s })
     }),
     {
