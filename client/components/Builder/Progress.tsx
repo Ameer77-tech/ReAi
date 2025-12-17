@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 const ProgressBar = () => {
   const step = useResumeStore((state) => state.step);
   return (
-    <div className="relative lg:w-2 lg:h-100 w-[70%] h-2">
+    <div className="lg:w-2 relative lg:h-100 w-[70%] h-2">
       <Progress
         mobileview={false}
         value={(step / 7) * 100}
@@ -46,7 +46,7 @@ const ProgressBar = () => {
           duration: 0.15,
           ease: "easeInOut",
         }}
-        className="w-5 h-5 lg:hidden rounded-full bg-primary text-black font-black absolute flex justify-center items-center -top-8"
+        className="w-4 z-90 h-4 lg:hidden rounded-full bg-primary text-black font-black flex justify-center items-center top-3 absolute"
       >
         {step}
       </motion.div>

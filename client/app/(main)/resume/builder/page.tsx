@@ -12,6 +12,7 @@ import Skills from "@/components/Builder/Skills";
 import Projects from "@/components/Builder/Projects";
 
 import { motion, AnimatePresence, Variants } from "motion/react";
+import Image from "next/image";
 
 /* -------------------------------------------------- */
 /* Animation variants */
@@ -50,9 +51,8 @@ const Page = () => {
           w-full
           max-w-6xl
           h-[85vh]
-          rounded-2xl
+          lg:rounded-2xl
           backdrop-blur-xs
-          bg-background
           flex
           flex-col
           lg:flex-row
@@ -60,24 +60,29 @@ const Page = () => {
         "
       >
         {/* LEFT / PROGRESS */}
-        <div className="lg:w-1/4 w-full border-b lg:border-b-0 lg:border-r">
+        <div className="lg:w-1/4 w-full lg:h-auto border-b lg:border-b-0 lg:border-r relative">
           <ProgressBar />
+          <div className="lg:absolute opacity-0 animate-fade-in hidden lg:block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={100}
+              height={300}
+              className="animate-bounce duration-500"
+            />
+            <p className="text-center bg-clip-text text-transparent bg-linear-to-r from-white">
+              ReAi
+            </p>
+          </div>
         </div>
 
         {/* RIGHT / CONTENT */}
         <div className="flex-1 h-full relative overflow-hidden">
           <AnimatePresence mode="wait">
             {step === 1 && (
-              <motion.div
-                key="template"
-                variants={stepVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="h-full"
-              >
+              <div key="template" className="h-full">
                 <Template step={step} setStep={setStep} />
-              </motion.div>
+              </div>
             )}
 
             {step === 2 && (
