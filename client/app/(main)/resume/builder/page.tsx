@@ -19,22 +19,22 @@ import Image from "next/image";
 /* -------------------------------------------------- */
 const stepVariants: Variants = {
   initial: {
-    y: -40,
+    y: 40,
     opacity: 0,
   },
   animate: {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.35,
+      duration: 0.2,
       ease: "easeOut",
     },
   },
   exit: {
-    y: 40,
+    y: -40,
     opacity: 0,
     transition: {
-      duration: 0.25,
+      duration: 0.2,
       ease: "easeIn",
     },
   },
@@ -80,9 +80,16 @@ const Page = () => {
         <div className="flex-1 h-full relative overflow-hidden">
           <AnimatePresence mode="wait">
             {step === 1 && (
-              <div key="template" className="h-full">
+              <motion.div
+                variants={stepVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                key="template"
+                className="h-full"
+              >
                 <Template step={step} setStep={setStep} />
-              </div>
+              </motion.div>
             )}
 
             {step === 2 && (

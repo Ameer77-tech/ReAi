@@ -10,38 +10,12 @@ import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/solid";
 import { useResumeStore } from "@/app/store/store";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { motion, AnimatePresence, Variants } from "motion/react";
-import { animate } from "motion";
 
 type Props = {
   setStep: void;
   step: number;
 };
 
-const containerVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: {
-    y: 5,
-    opacity: 0,
-  },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.35,
-      ease: "easeOut",
-    },
-  },
-};
 
 const Template = ({ setStep, step }: Props) => {
   const templates = [t2, t3, t4, t5, t1];
@@ -57,18 +31,13 @@ const Template = ({ setStep, step }: Props) => {
 
       {/* MIDDLE */}
       <div className="flex-1 overflow-y-auto">
-        <motion.div
+        <div
           className="p-10 grid lg:grid-cols-2 gap-10 place-items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
         >
           {templates.map((t, idx) => (
             <Tooltip key={idx}>
               <TooltipTrigger asChild>
-                <motion.div
-                  variants={itemVariants}
-                  layout={false}
+                <div
                   style={{ willChange: "transform, opacity" }}
 
                   onClick={() => setTemplatedId(idx)}
@@ -85,7 +54,7 @@ const Template = ({ setStep, step }: Props) => {
                     alt={`template ${idx + 1}`}
                     className="h-full w-full object-cover"
                   />
-                </motion.div>
+                </div>
               </TooltipTrigger>
 
               <TooltipContent className="hidden lg:block">
@@ -93,7 +62,7 @@ const Template = ({ setStep, step }: Props) => {
               </TooltipContent>
             </Tooltip>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* BOTTOM */}
