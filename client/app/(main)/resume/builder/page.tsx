@@ -23,8 +23,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { HomeIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 
 /* -------------------------------------------------- */
 /* Animation variants */
@@ -53,6 +55,7 @@ const stepVariants: Variants = {
 };
 
 const Page = () => {
+  const router = useRouter();
   const step = useResumeStore((state) => state.step);
   const setStep = useResumeStore((state) => state.setStep);
   const [showDialog, setShowDialog] = useState<boolean>(false);
@@ -87,6 +90,26 @@ const Page = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <div className="absolute  top-3 px-5 flex w-full justify-between items-center">
+        <Button
+          onClick={() => {
+            nProgress.start();
+            router.replace("/");
+          }}
+          variant={"ghost"}
+          size={"sm"}
+        >
+          <HomeIcon></HomeIcon>
+        </Button>
+        <Button
+          onClick={() => setShowDialog(true)}
+          variant={"destructive"}
+          size={"sm"}
+          className="lg:hidden md:hidden hover:text-red-600"
+        >
+          Reset All
+        </Button>
+      </div>
       <div className="min-h-screen w-full flex items-center justify-center px-4">
         <div
           className="

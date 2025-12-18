@@ -21,7 +21,7 @@ const Summary = () => {
     <div className="h-full flex flex-col bg-background text-foreground">
       {/* TITLE */}
       <div className="px-10 pt-10">
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="lg:text-3xl md:text-3xl text-2xl font-semibold tracking-tight">
           Professional Summary
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">

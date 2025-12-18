@@ -16,7 +16,6 @@ type Props = {
   step: number;
 };
 
-
 const Template = ({ setStep, step }: Props) => {
   const templates = [t2, t3, t4, t5, t1];
   const templatedId = useResumeStore((state) => state.templateId);
@@ -31,15 +30,12 @@ const Template = ({ setStep, step }: Props) => {
 
       {/* MIDDLE */}
       <div className="flex-1 overflow-y-auto">
-        <div
-          className="p-10 grid lg:grid-cols-2 gap-10 place-items-center"
-        >
+        <div className="p-10 grid lg:grid-cols-2 gap-10 place-items-center">
           {templates.map((t, idx) => (
             <Tooltip key={idx}>
               <TooltipTrigger asChild>
                 <div
                   style={{ willChange: "transform, opacity" }}
-
                   onClick={() => setTemplatedId(idx)}
                   className={cn(
                     "transform-gpu hover:-translate-y-3 active:scale-95 rounded-xl overflow-hidden h-84 w-64 cursor-pointer transition-all",
@@ -68,7 +64,9 @@ const Template = ({ setStep, step }: Props) => {
       {/* BOTTOM */}
       <div className="px-10 py-6 flex justify-end border-t">
         <Button
-          onClick={() => step < 7 && setStep(step + 1)}
+          onClick={() => {
+            if (step < 7) setStep(step + 1);
+          }}
           className="flex items-center gap-2"
         >
           Next

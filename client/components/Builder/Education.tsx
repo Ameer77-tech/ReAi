@@ -8,6 +8,7 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   PlusIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import { useResumeStore } from "@/app/store/store";
 
@@ -16,6 +17,7 @@ const Education = () => {
   const setStep = useResumeStore((s) => s.setStep);
   const setEducation = useResumeStore((s) => s.setEducation);
   const storedEducation = useResumeStore((s) => s.education);
+  const removeEducation = useResumeStore((s) => s.removeEducation);
 
   const [education, setEducationState] = useState(() => {
     if (storedEducation && storedEducation.length > 0) {
@@ -76,13 +78,40 @@ const Education = () => {
       </div>
 
       {/* CONTENT */}
-      <div className="flex-1 overflow-y-auto px-10 py-8">
+      <div className="flex-1 overflow-y-auto lg:px-10 py-8">
         <div className="space-y-10 max-w-4xl">
           {education.map((edu, idx) => (
             <div
               key={idx}
               className="rounded-xl border border-border p-6 bg-secondary/30 space-y-6"
             >
+              <div className="flex justify-end">
+                <Button
+                  onClick={() => {
+                    removeEducation(idx);
+                    const copy = [...education];
+                    copy.splice(idx, 1);
+                    setEducationState(
+                      copy.length
+                        ? copy
+                        : [
+                            {
+                              degree: "",
+                              field_of_study: "",
+                              institution: "",
+                              location: "",
+                              graduation_year: "",
+                              honors: [""],
+                            },
+                          ]
+                    );
+                  }}
+                  size={"icon"}
+                  variant={"destructive"}
+                >
+                  <TrashIcon className="w-4 h-4"></TrashIcon>
+                </Button>
+              </div>
               {/* MAIN FIELDS */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">

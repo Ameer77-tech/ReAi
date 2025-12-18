@@ -18,7 +18,7 @@ function Progress({
       className={cn(
         "relative overflow-hidden rounded-full bg-transparent",
         mobileview
-          ? "h-2 w-[60%]" // mobile → horizontal bar
+          ? "h-2 w-full" // mobile → horizontal bar
           : "w-2 h-full", // desktop → vertical bar
         className
       )}
