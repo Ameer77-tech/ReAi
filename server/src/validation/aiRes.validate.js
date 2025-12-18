@@ -1,78 +1,87 @@
 import { z } from "zod";
 
-// --- Personal Information ---
-const PersonalInfoSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.email("Invalid email"),
+/* ---------------- HEADER ---------------- */
+const HeaderSchema = z.object({
+  full_name: z.string().min(2, "Full name is required"),
+  professional_title: z.string().min(2, "Professional title is required"),
+});
+
+/* ---------------- CONTACT ---------------- */
+const ContactSchema = z.object({
   phone: z.string().optional(),
-  linkedin: z.url().optional(),
-  github: z.url().optional(),
-  website: z.url().optional(),
+  email: z.string().email("Invalid email"),
   location: z.string().optional(),
-  picture: z.string().optional(),
+  linkedin: z.string().url().optional(),
+  website: z.string().url().optional(),
+  github: z.string().url().optional(),
 });
 
-// --- Experience ---
+/* ---------------- EXPERIENCE ---------------- */
 const ExperienceSchema = z.object({
-  title: z.string().min(1, "Job title is required"),
-  company: z.string().min(1, "Company name is required"),
+  job_title: z.string().min(1, "Job title is required"),
+  employer: z.string().min(1, "Employer name is required"),
   location: z.string().optional(),
-  dates: z.string().min(1, "Dates are required"),
-  responsibilities: z
-    .array(z.string().min(1))
-    .min(1, "At least one responsibility is required"),
+  start_date: z.string().min(4, "Start date is required"),
+  end_date: z.string().optional(),
+  achievements: z
+    .array(z.string().min(5))
+    .min(1, "At least one achievement is required"),
 });
 
-// --- Education ---
+/* ---------------- EDUCATION ---------------- */
 const EducationSchema = z.object({
   degree: z.string().min(1, "Degree is required"),
-  university: z.string().min(1, "University name is required"),
+  field_of_study: z.string().optional(),
+  institution: z.string().min(1, "Institution is required"),
   location: z.string().optional(),
-  dates: z.string().min(1, "Dates are required"),
-  gpa: z.string().optional(),
+  graduation_year: z.string().min(4, "Graduation year is required"),
   honors: z.array(z.string()).optional(),
-  coursework: z.array(z.string()).optional(),
 });
 
-// --- Projects ---
+/* ---------------- SKILLS ---------------- */
+const SkillsSchema = z.object({
+  marketing: z.array(z.string()).optional(),
+  analytics: z.array(z.string()).optional(),
+  tools: z.array(z.string()).optional(),
+  soft_skills: z.array(z.string()).optional(),
+});
+
+/* ---------------- PROJECTS ---------------- */
 const ProjectSchema = z.object({
   name: z.string().min(1, "Project name is required"),
-  description: z.string().min(1, "Project description is required"),
+  description: z.string().min(5),
+  outcomes: z.array(z.string()).optional(),
+  tools_used: z.array(z.string()).optional(),
   link: z.string().url().optional(),
-  technologies: z.array(z.string()).optional(),
 });
 
-// --- Awards / Certifications ---
-const AwardSchema = z.object({
-  name: z.string().min(1, "Award/Certification name is required"),
+/* ---------------- CERTIFICATIONS ---------------- */
+const CertificationSchema = z.object({
+  name: z.string().min(1, "Certification name is required"),
   organization: z.string().optional(),
-  date: z.string().optional(),
+  date_obtained: z.string().optional(),
 });
 
-// --- Resume Schema ---
+/* ---------------- MAIN RESUME SCHEMA ---------------- */
 export const ResumeSchema = z.object({
-  personal_information: PersonalInfoSchema,
-  summary: z.string().min(10, "Summary is required"),
-  experience: z
+
+  header: HeaderSchema,
+  contact_information: ContactSchema,
+
+  professional_summary: z
+    .string()
+    .min(20, "Professional summary must be at least 20 characters"),
+
+  work_experience: z
     .array(ExperienceSchema)
-    .min(1, "At least one experience is required"),
+    .min(1, "At least one work experience is required"),
+
   education: z
     .array(EducationSchema)
     .min(1, "At least one education entry is required"),
-  skills: z.array(z.string().min(1)).min(1, "At least one skill is required"),
+
+  key_skills: SkillsSchema,
+
   projects: z.array(ProjectSchema).optional(),
-  awards: z.array(AwardSchema).optional(),
-  certifications: z.array(AwardSchema).optional(),
-  languages: z.array(z.string()).optional(),
-  interests: z.array(z.string()).optional(),
-  volunteer: z
-    .array(
-      z.object({
-        organization: z.string().min(1),
-        role: z.string().min(1),
-        dates: z.string().optional(),
-        description: z.string().optional(),
-      })
-    )
-    .optional(),
+  certifications: z.array(CertificationSchema).optional(),
 });
