@@ -12,18 +12,31 @@ import {
   RocketLaunchIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
+import SubmitData from "@/lib/Submit";
+import { useRouter } from "next/navigation";
+
+type ErrorObj = {
+  name?: string;
+  description?: string;
+  tools_used?: string;
+};
 
 const Projects = () => {
   const step = useResumeStore((s) => s.step);
   const setStep = useResumeStore((s) => s.setStep);
 
-  const storedProjects = useResumeStore((s) => s.projects);
+  const router = useRouter();
+
+  const stored = useResumeStore((s) => s.projects);
   const setProject = useResumeStore((s) => s.setProjects);
   const removeProject = useResumeStore((s) => s.removeProject);
 
+  const [pending, setPending] = useState(false);
+  const [errors, setErrors] = useState<Record<number, ErrorObj>>({});
+
   const [projects, setProjectsState] = useState(() => {
-    return storedProjects?.length
-      ? storedProjects
+    return stored?.length
+      ? stored
       : [
           {
             name: "",
@@ -34,6 +47,25 @@ const Projects = () => {
           },
         ];
   });
+
+  const validate = () => {
+    const newErrors: Record<number, ErrorObj> = {};
+
+    projects.forEach((proj, idx) => {
+      const err: ErrorObj = {};
+
+      if (!proj.name.trim()) err.name = "Required";
+      if (!proj.description.trim()) err.description = "Required";
+
+      const hasTool = proj.tools_used.some((t) => t.trim() !== "");
+      if (!hasTool) err.tools_used = "At least 1 required";
+
+      if (Object.keys(err).length) newErrors[idx] = err;
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const addProject = () => {
     setProjectsState((prev) => [
@@ -86,6 +118,28 @@ const Projects = () => {
     setProjectsState(updated);
   };
 
+  const handleSubmit = async () => {
+    if (!validate()) return;
+
+    setPending(true);
+    setProject(projects);
+
+    const state = useResumeStore.getState();
+    try {
+      const res = await SubmitData(state);
+      if (res.ok) {
+        alert(res.reply);
+        router.replace("/");
+      } else {
+        alert(res.reply);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setPending(false);
+  };
+
   return (
     <div className="h-full flex flex-col bg-background text-foreground">
       {/* TITLE */}
@@ -134,26 +188,35 @@ const Projects = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Project Name</Label>
+                <div className="space-y-1">
+                  <Label>Project Name *</Label>
                   <Input
                     placeholder="E-commerce App"
                     value={proj.name}
                     onChange={(e) => updateField(idx, "name", e.target.value)}
                   />
+                  {errors[idx]?.name && (
+                    <p className="text-xs text-red-500">{errors[idx]?.name}</p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Description</Label>
+                <div className="space-y-1">
+                  <Label>Description *</Label>
                   <Input
-                    placeholder="A full-stack MERN application supporting payments..."
+                    placeholder="A MERN web app supporting payments…"
                     value={proj.description}
                     onChange={(e) =>
                       updateField(idx, "description", e.target.value)
                     }
                   />
+                  {errors[idx]?.description && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.description}
+                    </p>
+                  )}
                 </div>
 
+                {/* Project Link stays optional */}
                 <div className="space-y-2">
                   <Label>Project Link (optional)</Label>
                   <Input
@@ -164,18 +227,17 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* OUTCOMES */}
+              {/* OUTCOMES — OPTIONAL */}
               <div className="space-y-3">
-                <Label>Outcomes</Label>
+                <Label>Outcomes (optional)</Label>
                 {proj.outcomes.map((out, oIdx) => (
                   <Input
                     key={oIdx}
-                    value={out}
                     placeholder="Improved performance by 40%"
+                    value={out}
                     onChange={(e) => updateOutcome(idx, oIdx, e.target.value)}
                   />
                 ))}
-
                 <Button
                   variant="outline"
                   size="sm"
@@ -186,17 +248,23 @@ const Projects = () => {
                 </Button>
               </div>
 
-              {/* TOOLS */}
+              {/* TOOLS REQUIRED */}
               <div className="space-y-3">
-                <Label>Tools Used</Label>
+                <Label>Tools Used *</Label>
                 {proj.tools_used.map((tool, tIdx) => (
                   <Input
                     key={tIdx}
-                    value={tool}
                     placeholder="React, Tailwind, MongoDB"
+                    value={tool}
                     onChange={(e) => updateTool(idx, tIdx, e.target.value)}
                   />
                 ))}
+
+                {errors[idx]?.tools_used && (
+                  <p className="text-xs text-red-500">
+                    {errors[idx]?.tools_used}
+                  </p>
+                )}
 
                 <Button
                   variant="outline"
@@ -228,8 +296,13 @@ const Projects = () => {
           <ArrowLeftIcon className="w-4 h-4" /> Previous
         </Button>
 
-        <Button className="bg-primary text-primary-foreground gap-2">
-          Submit Details <RocketLaunchIcon className="w-4 h-4" />
+        <Button
+          disabled={pending}
+          onClick={handleSubmit}
+          className="bg-primary text-primary-foreground gap-2"
+        >
+          {pending ? "Submitting..." : "Submit Details"}
+          {!pending && <RocketLaunchIcon className="w-4 h-4" />}
         </Button>
       </div>
     </div>

@@ -12,6 +12,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { useResumeStore } from "@/app/store/store";
 
+type ErrorObj = {
+  degree: string;
+  field_of_study: string;
+  institution: string;
+  graduation_year: string;
+};
+
 const Education = () => {
   const step = useResumeStore((s) => s.step);
   const setStep = useResumeStore((s) => s.setStep);
@@ -34,6 +41,27 @@ const Education = () => {
       },
     ];
   });
+
+  const [errors, setErrors] = useState<Record<number, Partial<ErrorObj>>>({});
+
+  const validate = () => {
+    const newErrors: Record<number, Partial<ErrorObj>> = {};
+
+    education.forEach((edu, idx) => {
+      const e: Partial<ErrorObj> = {};
+
+      if (!edu.degree.trim()) e.degree = "Required";
+      if (!edu.field_of_study.trim()) e.field_of_study = "Required";
+      if (!edu.institution.trim()) e.institution = "Required";
+      if (!edu.graduation_year.trim()) e.graduation_year = "Required";
+
+      if (Object.keys(e).length > 0) newErrors[idx] = e;
+    });
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const addEducation = () => {
     setEducationState([
@@ -106,25 +134,31 @@ const Education = () => {
                           ]
                     );
                   }}
-                  size={"icon"}
-                  variant={"destructive"}
+                  size="icon"
+                  variant="destructive"
                 >
-                  <TrashIcon className="w-4 h-4"></TrashIcon>
+                  <TrashIcon className="w-4 h-4" />
                 </Button>
               </div>
-              {/* MAIN FIELDS */}
+
+              {/* MAIN */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Degree</Label>
+                <div className="space-y-1">
+                  <Label>Degree *</Label>
                   <Input
                     placeholder="B.Tech / Diploma"
                     value={edu.degree}
                     onChange={(e) => updateField(idx, "degree", e.target.value)}
                   />
+                  {errors[idx]?.degree && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.degree}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Field of Study</Label>
+                <div className="space-y-1">
+                  <Label>Field of Study *</Label>
                   <Input
                     placeholder="Computer Science"
                     value={edu.field_of_study}
@@ -132,10 +166,15 @@ const Education = () => {
                       updateField(idx, "field_of_study", e.target.value)
                     }
                   />
+                  {errors[idx]?.field_of_study && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.field_of_study}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Institution</Label>
+                <div className="space-y-1">
+                  <Label>Institution *</Label>
                   <Input
                     placeholder="XYZ University / College"
                     value={edu.institution}
@@ -143,10 +182,15 @@ const Education = () => {
                       updateField(idx, "institution", e.target.value)
                     }
                   />
+                  {errors[idx]?.institution && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.institution}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Location</Label>
+                <div className="space-y-1">
+                  <Label>Location (optional)</Label>
                   <Input
                     placeholder="Hyderabad, India"
                     value={edu.location}
@@ -156,22 +200,26 @@ const Education = () => {
                   />
                 </div>
 
-                <div className="space-y-2 md:col-span-2">
-                  <Label>Graduation Year</Label>
+                <div className="space-y-1 md:col-span-2">
+                  <Label>Graduation Year *</Label>
                   <Input
-                    placeholder="2020 – 2024 / Expected 2026"
+                    placeholder="2026"
                     value={edu.graduation_year}
                     onChange={(e) =>
                       updateField(idx, "graduation_year", e.target.value)
                     }
                   />
+                  {errors[idx]?.graduation_year && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.graduation_year}
+                    </p>
+                  )}
                 </div>
               </div>
 
               {/* HONORS */}
               <div className="space-y-3">
                 <Label>Honors / Achievements (optional)</Label>
-
                 {edu.honors.map((honor, hIdx) => (
                   <Input
                     key={hIdx}
@@ -186,49 +234,40 @@ const Education = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => addHonor(idx)}
-                  className="flex items-center gap-2 w-fit"
+                  className="flex gap-2 w-fit"
                 >
-                  <PlusIcon className="h-4 w-4" />
+                  <PlusIcon className="w-4 " />
                   Add Honor
                 </Button>
               </div>
             </div>
           ))}
 
-          {/* ADD EDUCATION */}
-          <Button
-            variant="outline"
-            onClick={addEducation}
-            className="flex items-center gap-2"
-          >
-            <PlusIcon className="h-4 w-4" />
-            Add Education
+          <Button variant="outline" onClick={addEducation} className="gap-2">
+            <PlusIcon className="h-4 w-4" /> Add Education
           </Button>
         </div>
       </div>
 
       {/* ACTIONS */}
-      <div className="px-10 py-6 border-t border-border flex justify-between">
+      <div className="px-10 py-6 border-t flex justify-between">
         <Button
           variant="secondary"
           onClick={() => {
             setEducation(education);
             if (step > 1) setStep(step - 1);
           }}
-          className="flex items-center gap-2"
         >
-          <ArrowLeftIcon className="h-4 w-4" />
-          Previous
+          <ArrowLeftIcon className="h-4 w-4" /> Previous
         </Button>
 
         <Button
           onClick={() => {
+            if (!validate()) return;
             setEducation(education);
-            if (step < 7) {
-              setStep(step + 1);
-            }
+            if (step < 7) setStep(step + 1);
           }}
-          className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+          className="bg-primary text-primary-foreground gap-2"
         >
           Next
           <ArrowRightIcon className="h-4 w-4" />

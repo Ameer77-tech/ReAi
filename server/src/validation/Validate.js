@@ -1,4 +1,4 @@
-import AppError from "../errors/AppError.js";
+
 
 const validate = (schema) => (req, res, next) => {
   try {
@@ -6,9 +6,8 @@ const validate = (schema) => (req, res, next) => {
     next();
   } catch (err) {
     console.log(err);
-    
     const message = err.errors?.[0]?.message || "invalid Input";
-    next(new AppError(message, 400));
+    return res.status(400).json({ success: false, reply: message });
   }
 };
 export default validate;

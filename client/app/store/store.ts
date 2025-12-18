@@ -92,7 +92,7 @@ interface Certification {
   date_obtained: string;
 }
 
-interface ResumeStore {
+export interface ResumeStore {
   templateId: number;
   step: number;
 

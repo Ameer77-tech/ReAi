@@ -12,6 +12,8 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/solid";
 
+type CategoryKey = "marketing" | "analytics" | "tools" | "soft_skills";
+
 const Skills = () => {
   const step = useResumeStore((s) => s.step);
   const setStep = useResumeStore((s) => s.setStep);
@@ -30,23 +32,21 @@ const Skills = () => {
     );
   });
 
-  const addSkill = (category: keyof typeof skills) => {
+  const [error, setError] = useState("");
+
+  const addSkill = (category: CategoryKey) => {
     const updated = { ...skills };
     updated[category].push("");
     setSkillsState(updated);
   };
 
-  const updateSkill = (
-    category: keyof typeof skills,
-    idx: number,
-    value: string
-  ) => {
+  const updateSkill = (category: CategoryKey, idx: number, value: string) => {
     const updated = { ...skills };
     updated[category][idx] = value;
     setSkillsState(updated);
   };
 
-  const removeSkill = (category: keyof typeof skills, idx: number) => {
+  const removeSkill = (category: CategoryKey, idx: number) => {
     const updated = { ...skills };
     updated[category].splice(idx, 1);
     if (updated[category].length === 0) updated[category].push("");
@@ -59,6 +59,20 @@ const Skills = () => {
     { key: "tools", label: "Tools & Software" },
     { key: "soft_skills", label: "Soft Skills" },
   ] as const;
+
+  const validate = () => {
+    const hasOne = Object.values(skills).some((arr) =>
+      arr.some((v) => v.trim() !== "")
+    );
+
+    if (!hasOne) {
+      setError("Add at least one skill.");
+      return false;
+    }
+
+    setError("");
+    return true;
+  };
 
   return (
     <div className="h-full flex flex-col bg-background text-foreground">
@@ -111,29 +125,34 @@ const Skills = () => {
       </div>
 
       {/* ACTIONS */}
-      <div className="px-10 py-6 border-t flex justify-between">
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setSkills(skills);
-            if (step > 1) setStep(step - 1);
-          }}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Previous
-        </Button>
+      <div className="px-10 py-6 border-t flex flex-col gap-2">
+        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-        <Button
-          onClick={() => {
-            setSkills(skills);
-            if (step < 7) setStep(step + 1);
-          }}
-          className="flex items-center gap-2 bg-primary text-primary-foreground"
-        >
-          Next
-          <ArrowRightIcon className="w-4 h-4" />
-        </Button>
+        <div className="flex justify-between">
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setSkills(skills);
+              if (step > 1) setStep(step - 1);
+            }}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            Previous
+          </Button>
+
+          <Button
+            onClick={() => {
+              if (!validate()) return;
+              setSkills(skills);
+              if (step < 7) setStep(step + 1);
+            }}
+            className="flex items-center gap-2 bg-primary text-primary-foreground"
+          >
+            Next
+            <ArrowRightIcon className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );

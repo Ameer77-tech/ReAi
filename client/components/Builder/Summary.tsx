@@ -11,6 +11,11 @@ const Summary = () => {
   const step = useResumeStore((s) => s.step);
   const setStep = useResumeStore((s) => s.setStep);
 
+  const [message, setMessage] = useState({
+    required: false,
+    text: "",
+  });
+
   const storedSummary = useResumeStore((s) => s.professional_summary);
   const setSummary = useResumeStore((s) => s.setSummary);
 
@@ -40,6 +45,9 @@ const Summary = () => {
               value={summary}
               onChange={(e) => setSummaryState(e.target.value)}
             />
+            {message.required && (
+              <p className="text-xs text-red-500">{message.text}</p>
+            )}
           </div>
 
           <div className="rounded-lg border border-border bg-secondary/40 p-4">
@@ -69,6 +77,20 @@ const Summary = () => {
 
         <Button
           onClick={() => {
+            if (summary.length < 1 || summary === "") {
+              setMessage({
+                required: true,
+                text: "Summary is Required",
+              });
+              return;
+            }
+            if (summary.length < 20 || summary === "") {
+              setMessage({
+                required: true,
+                text: "Too Short...",
+              });
+              return;
+            }
             setSummary(summary);
             if (step < 7) {
               setStep(step + 1);

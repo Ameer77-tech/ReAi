@@ -1,5 +1,15 @@
 import { z } from "zod";
 
+const OptionalUrl = z
+  .string()
+  .transform((v) => (v.trim() === "" ? undefined : v))
+  .optional()
+  .refine((v) => !v || /^https?:\/\//.test(v), "Invalid URL");
+
+const CleanStringArray = z
+  .array(z.string())
+  .transform((arr) => arr.map((v) => v.trim()).filter(Boolean));
+
 /* ---------------- HEADER ---------------- */
 const HeaderSchema = z.object({
   full_name: z.string().min(2, "Full name is required"),
@@ -9,11 +19,11 @@ const HeaderSchema = z.object({
 /* ---------------- CONTACT ---------------- */
 const ContactSchema = z.object({
   phone: z.string().optional(),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid Email"),
   location: z.string().optional(),
-  linkedin: z.string().url().optional(),
-  website: z.string().url().optional(),
-  github: z.string().url().optional(),
+  linkedin: OptionalUrl,
+  website: OptionalUrl,
+  github: OptionalUrl,
 });
 
 /* ---------------- EXPERIENCE ---------------- */
@@ -24,8 +34,11 @@ const ExperienceSchema = z.object({
   start_date: z.string().min(4, "Start date is required"),
   end_date: z.string().optional(),
   achievements: z
-    .array(z.string().min(5))
-    .min(1, "At least one achievement is required"),
+    .array(z.string())
+    .transform((arr) => arr.map((v) => v.trim()).filter(Boolean))
+    .refine((arr) => arr.length > 0, {
+      message: "At least one achievement is required",
+    }),
 });
 
 /* ---------------- EDUCATION ---------------- */
@@ -34,16 +47,19 @@ const EducationSchema = z.object({
   field_of_study: z.string().optional(),
   institution: z.string().min(1, "Institution is required"),
   location: z.string().optional(),
-  graduation_year: z.string().min(4, "Graduation year is required"),
+  graduation_year: z
+    .string()
+    .min(4, "Enter at least 4 characters")
+    .refine((v) => /\d{4}/.test(v), "Must contain a 4-digit year"),
   honors: z.array(z.string()).optional(),
 });
 
 /* ---------------- SKILLS ---------------- */
 const SkillsSchema = z.object({
-  marketing: z.array(z.string()).optional(),
-  analytics: z.array(z.string()).optional(),
-  tools: z.array(z.string()).optional(),
-  soft_skills: z.array(z.string()).optional(),
+  marketing: CleanStringArray.optional(),
+  analytics: CleanStringArray.optional(),
+  tools: CleanStringArray.optional(),
+  soft_skills: CleanStringArray.optional(),
 });
 
 /* ---------------- PROJECTS ---------------- */
@@ -52,19 +68,18 @@ const ProjectSchema = z.object({
   description: z.string().min(5),
   outcomes: z.array(z.string()).optional(),
   tools_used: z.array(z.string()).optional(),
-  link: z.string().url().optional(),
+  link: OptionalUrl,
 });
 
 /* ---------------- CERTIFICATIONS ---------------- */
 const CertificationSchema = z.object({
-  name: z.string().min(1, "Certification name is required"),
+  name: z.string().optional(),
   organization: z.string().optional(),
   date_obtained: z.string().optional(),
 });
 
 /* ---------------- MAIN RESUME SCHEMA ---------------- */
 export const userDetailsSchema = z.object({
-
   header: HeaderSchema,
   contact_information: ContactSchema,
 

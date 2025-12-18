@@ -12,6 +12,15 @@ import {
 } from "@heroicons/react/24/solid";
 import { useResumeStore } from "@/app/store/store";
 
+type ErrorObj = {
+  job_title?: string;
+  employer?: string;
+  location?: string;
+  start_date?: string;
+  end_date?: string;
+  achievements?: string;
+};
+
 const Experience = () => {
   const step = useResumeStore((s) => s.step);
   const setStep = useResumeStore((s) => s.setStep);
@@ -34,6 +43,30 @@ const Experience = () => {
           },
         ];
   });
+
+  const [errors, setErrors] = useState<Record<number, ErrorObj>>({});
+
+  const validate = () => {
+    const newErrors: Record<number, ErrorObj> = {};
+
+    experience.forEach((exp, idx) => {
+      const err: ErrorObj = {};
+
+      if (!exp.job_title.trim()) err.job_title = "Required";
+      if (!exp.employer.trim()) err.employer = "Required";
+      if (!exp.location.trim()) err.location = "Required";
+      if (!exp.start_date.trim()) err.start_date = "Required";
+      if (!exp.end_date.trim()) err.end_date = "Required";
+
+      const hasAchievement = exp.achievements.some((a) => a.trim() !== "");
+      if (!hasAchievement) err.achievements = "Add at least one achievement";
+
+      if (Object.keys(err).length) newErrors[idx] = err;
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const addExperience = () => {
     setExperienceState((prev) => [
@@ -90,18 +123,16 @@ const Experience = () => {
               <div className="flex justify-between items-center">
                 <h2 className="text-lg font-medium">Experience #{idx + 1}</h2>
 
-                {/* Now remove calls Zustand directly */}
                 <Button
                   size="icon"
                   variant="destructive"
                   onClick={() => {
                     removeExperience(idx);
-                    // also reflect locally so UI updates immediately
-                    const localCopy = [...experience];
-                    localCopy.splice(idx, 1);
+                    const copy = [...experience];
+                    copy.splice(idx, 1);
                     setExperienceState(
-                      localCopy.length
-                        ? localCopy
+                      copy.length
+                        ? copy
                         : [
                             {
                               job_title: "",
@@ -121,8 +152,8 @@ const Experience = () => {
 
               {/* Fields */}
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Job Title</Label>
+                <div className="space-y-1">
+                  <Label>Job Title *</Label>
                   <Input
                     value={exp.job_title}
                     onChange={(e) =>
@@ -130,10 +161,15 @@ const Experience = () => {
                     }
                     placeholder="Software Developer"
                   />
+                  {errors[idx]?.job_title && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.job_title}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Employer</Label>
+                <div className="space-y-1">
+                  <Label>Employer *</Label>
                   <Input
                     value={exp.employer}
                     onChange={(e) =>
@@ -141,10 +177,15 @@ const Experience = () => {
                     }
                     placeholder="Company Name"
                   />
+                  {errors[idx]?.employer && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.employer}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Location</Label>
+                <div className="space-y-1">
+                  <Label>Location *</Label>
                   <Input
                     value={exp.location}
                     onChange={(e) =>
@@ -152,10 +193,15 @@ const Experience = () => {
                     }
                     placeholder="Hyderabad, India"
                   />
+                  {errors[idx]?.location && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.location}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Start Date</Label>
+                <div className="space-y-1">
+                  <Label>Start Date *</Label>
                   <Input
                     value={exp.start_date}
                     onChange={(e) =>
@@ -163,10 +209,15 @@ const Experience = () => {
                     }
                     placeholder="Jan 2023"
                   />
+                  {errors[idx]?.start_date && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.start_date}
+                    </p>
+                  )}
                 </div>
 
-                <div className="space-y-2 md:col-span-2">
-                  <Label>End Date</Label>
+                <div className="space-y-1 md:col-span-2">
+                  <Label>End Date *</Label>
                   <Input
                     value={exp.end_date}
                     onChange={(e) =>
@@ -174,12 +225,16 @@ const Experience = () => {
                     }
                     placeholder="Present / Aug 2024"
                   />
+                  {errors[idx]?.end_date && (
+                    <p className="text-xs text-red-500">
+                      {errors[idx]?.end_date}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              {/* Achievements */}
               <div className="space-y-3">
-                <Label>Achievements</Label>
+                <Label>Achievements *</Label>
 
                 {exp.achievements.map((ach, aIdx) => (
                   <Input
@@ -188,9 +243,15 @@ const Experience = () => {
                     onChange={(e) =>
                       updateAchievement(idx, aIdx, e.target.value)
                     }
-                    placeholder="Implemented feature X improving Y by Z%"
+                    placeholder="Implemented feature improving performance"
                   />
                 ))}
+
+                {errors[idx]?.achievements && (
+                  <p className="text-xs text-red-500">
+                    {errors[idx]?.achievements}
+                  </p>
+                )}
 
                 <Button
                   variant="outline"
@@ -217,16 +278,18 @@ const Experience = () => {
         <Button
           variant="secondary"
           onClick={() => {
-            setExperience(experience);
-            if (step > 1) setStep(step - 1);
+            if (validate()) {
+              setExperience(experience);
+              if (step > 1) setStep(step - 1);
+            }
           }}
         >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Previous
+          <ArrowLeftIcon className="w-4 h-4" /> Previous
         </Button>
 
         <Button
           onClick={() => {
+            if (!validate()) return;
             setExperience(experience);
             if (step < 7) setStep(step + 1);
           }}
