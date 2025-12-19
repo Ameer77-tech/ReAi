@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 interface ServerReply {
   reply: string;
   success: boolean;
+  id : string
 }
 
 export async function POST(req: Request) {
@@ -21,9 +22,10 @@ export async function POST(req: Request) {
     const data: ServerReply = await backend.json();
     
     return NextResponse.json({
-      ok: true,
+      ok: data.success,
       reply: data.reply,
       success: data.success,
+      id : data.id
     });
   } catch (err) {
     console.error("SUBMIT ROUTE ERROR:", err);
