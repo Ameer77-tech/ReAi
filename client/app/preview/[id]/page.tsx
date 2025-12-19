@@ -1,8 +1,11 @@
+import T1 from '@/components/Preview/T1'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div className='flex justify-center items-start min-h-screen overflow-scroll'>
+      <T1 />
+    </div>
   )
 }
 
