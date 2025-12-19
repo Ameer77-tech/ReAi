@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/solid";
 import SubmitData from "@/lib/Submit";
 import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 
 type ErrorObj = {
   name?: string;
@@ -128,16 +129,16 @@ const Projects = () => {
     try {
       const res = await SubmitData(state);
       if (res.ok) {
-        alert(res.reply);
-        router.replace("/");
+        nProgress.start();
+        router.replace(`/preview/${res.id}`);
       } else {
         alert(res.reply);
+        setPending(false);
       }
     } catch (err) {
       console.log(err);
+      setPending(false);
     }
-
-    setPending(false);
   };
 
   return (
