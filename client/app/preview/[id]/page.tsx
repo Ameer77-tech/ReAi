@@ -3,7 +3,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='flex justify-center items-start min-h-screen overflow-scroll'>
+    <div className='flex justify-center items-start min-h-screen overflow-scroll p-10'>
       <T1 />
     </div>
   )
