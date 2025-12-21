@@ -4,7 +4,10 @@ import { manrope } from "@/fonts/Fonts";
 import { cn } from "@/lib/utils";
 import Header from "./components/t1/Header";
 import About from "./components/t1/About";
+<<<<<<< HEAD
 import Education from "./components/t1/Education";
+=======
+>>>>>>> 97352eabcc35a3a9bc7f527905cbcb623bfff37c
 
 const T1 = () => {
   return (
@@ -17,7 +20,10 @@ const T1 = () => {
     >
       <Header />
       <About />
+<<<<<<< HEAD
       <Education />
+=======
+>>>>>>> 97352eabcc35a3a9bc7f527905cbcb623bfff37c
     </div>
   );
 };
