@@ -7,7 +7,7 @@ const About = () => {
       <CardTitle className="text-black font-extrabold text-2xl uppercase tracking-wide">
         About Me
       </CardTitle>
-      <CardContent className="text-black/70">
+      <CardContent className="text-black/70 p-0">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam fuga
         voluptate quia eveniet iure necessitatibus ipsam totam rem dolorum, quae
         cum aperiam et laborum deserunt dolor vitae saepe esse beatae!voluptate

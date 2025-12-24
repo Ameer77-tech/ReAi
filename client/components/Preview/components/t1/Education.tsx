@@ -10,7 +10,7 @@ const Education = () => {
       fieldOfStudy: "Computer Science and Engineering",
       gradYear: "2026",
       location: "Kakinada, Andhra Pradesh",
-      honors: "CGPA 8.5",
+      honors: ["CGPA 8.5", "Merit Scholarship Recipient"],
     },
     {
       institution: "XYZ Polytechnic College",
@@ -18,7 +18,7 @@ const Education = () => {
       fieldOfStudy: "Computer Engineering",
       gradYear: "2023",
       location: "Andhra Pradesh",
-      honors: null,
+      honors: [],
     },
     {
       institution: "Sri Chaitanya Junior College",
@@ -26,7 +26,7 @@ const Education = () => {
       fieldOfStudy: "MPC",
       gradYear: "2021",
       location: "Andhra Pradesh",
-      honors: "Top 5% Batch Rank",
+      honors: ["Top 5% Batch Rank"],
     },
     {
       institution: "St. Joseph’s High School",
@@ -34,20 +34,16 @@ const Education = () => {
       fieldOfStudy: "General Education",
       gradYear: "2019",
       location: "Andhra Pradesh",
-      honors: null,
+      honors: ["School Topper in Mathematics", "Perfect Attendance Award"],
     },
   ];
-
-  type eduProps = {
-    key: string;
-  };
 
   return (
     <Card className="bg-transparent rounded-none border-0 shadow-none border-b-2 border-black gap-2">
       <CardTitle className="text-black font-extrabold text-2xl uppercase tracking-wide">
         Education
       </CardTitle>
-      <CardContent className="text-black">
+      <CardContent className="text-black grid grid-cols-1 p-0">
         {education.map((e, idx) => (
           <E
             key={idx}

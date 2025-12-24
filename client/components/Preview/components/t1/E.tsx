@@ -1,16 +1,16 @@
 import React from "react";
 
 type EProps = {
-  institution: string;
+  institute: string;
   degree: string;
   fieldOfStudy: string;
   gradYear: string;
   location: string;
-  honors: string | null;
+  honors: string[];
 };
 
 export default function E({
-  institution,
+  institute,
   degree,
   fieldOfStudy,
   gradYear,
@@ -18,15 +18,28 @@ export default function E({
   honors,
 }: EProps) {
   return (
-    <div className="mb-4">
-      <p className="font-semibold">{institution}</p>
-      <p className="text-sm">
-        {degree} — {fieldOfStudy}
-      </p>
-      <p className="text-xs">
-        {gradYear} • {location}
-      </p>
-      {honors && <p className="text-xs italic">Honors: {honors}</p>}
+    <div className="mb-5">
+      {/* Header row */}
+      <div className="grid grid-cols-[1fr_auto] gap-2 items-start">
+        <div>
+          <p className="text-sm">
+            {degree} in {fieldOfStudy}
+          </p>
+          <p className="font-semibold text-sm leading-tight">{institute}</p>
+          <p className="text-xs text-muted-foreground">{location}</p>
+        </div>
+
+        <p className="text-xs whitespace-nowrap">{gradYear}</p>
+      </div>
+
+      {/* Honors */}
+      {honors.length > 0 && (
+        <ul className="mt-1 ml-4 list-disc text-xs text-muted-foreground">
+          {honors.map((honor, idx) => (
+            <li key={idx}>{honor}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
