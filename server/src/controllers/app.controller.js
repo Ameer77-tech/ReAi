@@ -6,6 +6,8 @@ import puppeteer from "puppeteer";
 import AppError from "../errors/AppError.js";
 import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
+import fs from "fs"
+import path from "path";
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
@@ -44,28 +46,49 @@ export const getUserDetails = catchAsync(async (req, res) => {
 
 export const generatePdf = catchAsync(async (req, res) => {
   const { html } = req.body;
+
   if (!html || html.length === 0) {
     throw new AppError("Invalid Request", 400);
   }
 
-  let browser;
+  const cssPath = path.join(process.cwd(), "src/lib/pdf.css");
+  const css = fs.readFileSync(cssPath, "utf-8");
 
-  try {
-    browser = await puppeteer.launch({ args: ["--no-sandbox"] });
-    const page = await browser.newPage();
+  const finalHtml = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+          ${css}
+          body { margin: 0; background: white; }
+        </style>
+      </head>
+      <body>
+        ${html}
+      </body>
+    </html>
+  `;
 
-    await page.setContent(html, { waitUntil: "networkidle0" });
-    const pdfBuffer = await page.pdf({ format: "A4" });
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
-    res.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": "attachment; filename=preview.pdf",
-    });
+  const page = await browser.newPage();
+  await page.setContent(finalHtml, { waitUntil: "networkidle0" });
 
-    res.status(200).send(pdfBuffer);
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
-  }
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+  });
+
+  await browser.close();
+
+  res.set({
+    "Content-Type": "application/pdf",
+    "Content-Disposition": "attachment; filename=preview.pdf",
+  });
+
+  res.status(200).send(pdfBuffer);
 });
