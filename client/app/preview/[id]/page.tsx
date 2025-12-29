@@ -3,8 +3,8 @@ import T1 from "@/components/Preview/T1";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import download from "@/lib/Download";
-import React from "react";
 import { useResumeStore } from "@/app/store/store";
+
 
 const Page = () => {
   const templateId = useResumeStore((s) => s.templateId);
@@ -28,6 +28,7 @@ const Page = () => {
       default:
         download(<T1 />);
     }
+  
   };
   return (
     <div className="flex justify-center items-start min-h-screen overflow-scroll p-10">

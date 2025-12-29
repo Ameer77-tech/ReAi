@@ -25,6 +25,7 @@
     "nprogress": "^0.2.0",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "react-toastify": "^11.0.5",
     "tailwind-merge": "^3.4.0",
     "three": "^0.182.0",
     "vanta": "^0.5.24",

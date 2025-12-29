@@ -1,4 +1,5 @@
 import { renderToString } from "react-dom/server";
+import { Slide, toast } from "react-toastify";
 
  const download = async (comp : React.ReactNode) => {
     const rendered = renderToString(comp);
@@ -31,6 +32,17 @@ import { renderToString } from "react-dom/server";
         link.remove();
         window.URL.revokeObjectURL(url);
       }
+        toast.success("Download Success", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+    });
     } catch (err) {
       console.log(err);
     }
