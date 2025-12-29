@@ -6,7 +6,7 @@ import puppeteer from "puppeteer";
 import AppError from "../errors/AppError.js";
 import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
-import fs from "fs"
+import fs from "fs";
 import path from "path";
 
 export const generateResume = catchAsync(async (req, res) => {
@@ -77,10 +77,26 @@ export const generatePdf = catchAsync(async (req, res) => {
 
   const page = await browser.newPage();
   await page.setContent(finalHtml, { waitUntil: "networkidle0" });
+  await page.addStyleTag({
+    content: `
+      @page:first {
+        margin: 0mm 0mm 0mm 0mm;
+        margin-bottom : 20mm;
+      }
+      @page {
+        margin-top: 15mm;
+        margin-bottom : 15mm;
+      }
+    `,
+  });
 
   const pdfBuffer = await page.pdf({
     format: "A4",
     printBackground: true,
+    margin: {
+      top: "15mm",
+      bottom: "20mm",
+    },
   });
 
   await browser.close();

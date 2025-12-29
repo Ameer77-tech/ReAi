@@ -1,0 +1,39 @@
+import { renderToString } from "react-dom/server";
+
+ const download = async (comp : React.ReactNode) => {
+    const rendered = renderToString(comp);
+    const html = `
+    ${rendered}
+`;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT}/api/generate`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ html: html }),
+        }
+      );
+      if (!res.ok) {
+        alert("failed");
+        return;
+      } else {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "resume.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  export default download

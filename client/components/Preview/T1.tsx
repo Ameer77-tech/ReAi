@@ -13,13 +13,6 @@ import { Download } from "lucide-react";
 import { renderToString } from "react-dom/server";
 
 const T1 = () => {
-  const download = () => {
-    const rendered = renderToString(<T1 />);
-    const html = `
-    ${rendered}
-`;
-    console.log(html);
-  };
 
   return (
     <>
@@ -36,13 +29,7 @@ const T1 = () => {
         <WorkExp />
         <Skills />
       </div>
-      <Button
-        onClick={download}
-        className="fixed bottom-5 flex items-center cursor-pointer"
-      >
-        <p>Download Pdf </p>
-        <Download />
-      </Button>
+      
     </>
   );
 };
