@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 import { manrope } from "@/fonts/Fonts";
 import { cn } from "@/lib/utils";
@@ -8,12 +7,11 @@ import About from "./components/t1/About";
 import Education from "./components/t1/Education";
 import WorkExp from "./components/t1/WorkExp";
 import Skills from "./components/t1/Skills";
-import { Button } from "../ui/button";
-import { Download } from "lucide-react";
-import { renderToString } from "react-dom/server";
+import type { T1Props } from "@/types/preview";
 
-const T1 = () => {
-
+const T1 = ({ data }: T1Props) => {
+  console.log(data);
+  
   return (
     <>
       <div
@@ -23,13 +21,14 @@ const T1 = () => {
           "antialiased"
         )}
       >
-        <Header />
-        <About />
-        <Education />
-        <WorkExp />
-        <Skills />
+        <Header
+          data={{ header: data.header, contact: data.contact_information }}
+        />
+        <About data={data.professional_summary} />
+        <Education data={data.education} />
+        <WorkExp data={data.work_experience} />
+        <Skills data={data.key_skills} />
       </div>
-      
     </>
   );
 };

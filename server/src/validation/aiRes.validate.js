@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { OptionalUrl } from "./input.validate.js";
 
 /* ---------------- HEADER ---------------- */
 const HeaderSchema = z.object({
@@ -9,11 +10,11 @@ const HeaderSchema = z.object({
 /* ---------------- CONTACT ---------------- */
 const ContactSchema = z.object({
   phone: z.string().optional(),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid email"),
   location: z.string().optional(),
-  linkedin: z.string().url().optional(),
-  website: z.string().url().optional(),
-  github: z.string().url().optional(),
+  linkedin: OptionalUrl,
+  website: OptionalUrl,
+  github: OptionalUrl,
 });
 
 /* ---------------- EXPERIENCE ---------------- */
@@ -34,7 +35,10 @@ const EducationSchema = z.object({
   field_of_study: z.string().optional(),
   institution: z.string().min(1, "Institution is required"),
   location: z.string().optional(),
-  graduation_year: z.string().min(4, "Graduation year is required"),
+  graduation_year: z
+    .string()
+    .min(4, "Enter at least 4 characters")
+    .refine((v) => /\d{4}/.test(v), "Must contain a 4-digit year"),
   honors: z.array(z.string()).optional(),
 });
 
@@ -52,7 +56,7 @@ const ProjectSchema = z.object({
   description: z.string().min(5),
   outcomes: z.array(z.string()).optional(),
   tools_used: z.array(z.string()).optional(),
-  link: z.string().url().optional(),
+  link: OptionalUrl,
 });
 
 /* ---------------- CERTIFICATIONS ---------------- */
@@ -64,7 +68,6 @@ const CertificationSchema = z.object({
 
 /* ---------------- MAIN RESUME SCHEMA ---------------- */
 export const ResumeSchema = z.object({
-
   header: HeaderSchema,
   contact_information: ContactSchema,
 

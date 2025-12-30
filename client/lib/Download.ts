@@ -1,3 +1,4 @@
+"use client"
 import { renderToString } from "react-dom/server";
 import { Slide, toast } from "react-toastify";
 
@@ -32,7 +33,7 @@ import { Slide, toast } from "react-toastify";
         link.remove();
         window.URL.revokeObjectURL(url);
       }
-        toast.success("Download Success", {
+      toast.success("Download Success", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,

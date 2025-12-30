@@ -1,6 +1,6 @@
 import VantaDots from "@/components/bg";
 import React from "react";
-import { Slide, ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 
 type props = {
   children: React.ReactNode;

@@ -1,42 +1,33 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import React from "react";
 import E from "./E";
+import type { EducationItem } from "@/types/preview";
 
-const Education = () => {
-  const education = [
-    {
-      institution: "Aditya Engineering College",
-      degree: "B.Tech",
-      fieldOfStudy: "Computer Science and Engineering",
-      gradYear: "2026",
-      location: "Kakinada, Andhra Pradesh",
-      honors: ["CGPA 8.5", "Merit Scholarship Recipient"],
-    },
-    {
-      institution: "XYZ Polytechnic College",
-      degree: "Diploma",
-      fieldOfStudy: "Computer Engineering",
-      gradYear: "2023",
-      location: "Andhra Pradesh",
-      honors: [],
-    },
-    {
-      institution: "Sri Chaitanya Junior College",
-      degree: "Intermediate",
-      fieldOfStudy: "MPC",
-      gradYear: "2021",
-      location: "Andhra Pradesh",
-      honors: ["Top 5% Batch Rank"],
-    },
-    {
-      institution: "St. Joseph’s High School",
-      degree: "SSC",
-      fieldOfStudy: "General Education",
-      gradYear: "2019",
-      location: "Andhra Pradesh",
-      honors: ["School Topper in Mathematics", "Perfect Attendance Award"],
-    },
-  ];
+type EducationProps = {
+  data?: EducationItem[];
+};
+
+const defaultEducation: EducationItem[] = [
+  {
+    institution: "Aditya Engineering College",
+    degree: "B.Tech",
+    field_of_study: "Computer Science and Engineering",
+    graduation_year: "2026",
+    location: "Kakinada, Andhra Pradesh",
+    honors: ["CGPA 8.5", "Merit Scholarship Recipient"],
+  },
+  {
+    institution: "XYZ Polytechnic College",
+    degree: "Diploma",
+    field_of_study: "Computer Engineering",
+    graduation_year: "2023",
+    location: "Andhra Pradesh",
+    honors: [],
+  },
+];
+
+const Education = ({ data }: EducationProps) => {
+  const education = data && data.length > 0 ? data : defaultEducation;
 
   return (
     <Card className="bg-transparent rounded-none border-0 shadow-none border-b-2 border-black gap-2">
@@ -49,10 +40,10 @@ const Education = () => {
             key={idx}
             institute={e.institution}
             degree={e.degree}
-            fieldOfStudy={e.fieldOfStudy}
-            gradYear={e.gradYear}
-            location={e.location}
-            honors={e.honors}
+            fieldOfStudy={e.field_of_study ?? ""}
+            gradYear={e.graduation_year ?? ""}
+            location={e.location ?? ""}
+            honors={e.honors ?? []}
           />
         ))}
       </CardContent>

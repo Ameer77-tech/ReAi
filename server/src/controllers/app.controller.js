@@ -18,15 +18,28 @@ export const generateResume = catchAsync(async (req, res) => {
   const userData = await UserDetails.findOne({ id: id }).select(
     "-_id -createdAt -updatedAt -__v -id"
   );
+
   if (!userData) {
     throw new AppError("User Expired", 404);
+  }
+  const resume = await Resume.findOne({ resumeId: id }).select(
+    "-_id -expiresAt -createdAt -updatedAt -__v"
+  );
+  if (resume) {
+    return res.status(200).json({ resume: resume, success: true });
   }
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
   });
   const cleaned = await generateAiResponse(ai, userData);
   const created = await Resume.create({ resumeId: id, ...cleaned });
-  return res.status(200).json({ resume: created });
+  const result = created.toObject();
+  delete result._id;
+  delete result.__v;
+  delete result.createdAt;
+  delete result.updatedAt;
+  delete result.expiresAt;
+  return res.status(200).json({ resume: result, success: true });
 });
 
 export const getUserDetails = catchAsync(async (req, res) => {
