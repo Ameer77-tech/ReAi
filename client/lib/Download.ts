@@ -2,7 +2,7 @@
 import { renderToString } from "react-dom/server";
 import { Slide, toast } from "react-toastify";
 
- const download = async (comp : React.ReactNode) => {
+ const download = async (comp : React.ReactNode, setPending) => {
     const rendered = renderToString(comp);
     const html = `
     ${rendered}
@@ -33,6 +33,7 @@ import { Slide, toast } from "react-toastify";
         link.remove();
         window.URL.revokeObjectURL(url);
       }
+      setPending(false)
       toast.success("Download Success", {
       position: "top-center",
       autoClose: 5000,
