@@ -46,7 +46,7 @@ const Page = async ({ params }: PageProps) => {
   return reply.success ? (
     <div className="flex justify-center items-start min-h-screen overflow-scroll p-10">
       <T1 data={res.resume} />
-      <DownloadBtn />
+      <DownloadBtn data={res.resume} />
     </div>
   ) : (
     <p className="text-center text-4xl">{reply.message}</p>

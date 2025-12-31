@@ -11,6 +11,7 @@ import path from "path";
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
+  
   if (!id || id.length === 0) {
     throw new AppError("id required", 401);
   }

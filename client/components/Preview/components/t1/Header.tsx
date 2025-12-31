@@ -12,7 +12,6 @@ type HeaderProps = {
 };
 
 const Header = ({ data }: HeaderProps) => {
-  console.log(data);
 
   return (
     <Card className="bg-transparent rounded-none border-0 shadow-none border-b-2 border-black place-items-center gap-2">

@@ -10,8 +10,8 @@ import Skills from "./components/t1/Skills";
 import type { T1Props } from "@/types/preview";
 
 const T1 = ({ data }: T1Props) => {
-  console.log(data);
-  
+ 
+
   return (
     <>
       <div
@@ -22,12 +22,12 @@ const T1 = ({ data }: T1Props) => {
         )}
       >
         <Header
-          data={{ header: data.header, contact: data.contact_information }}
+          data={{ header: data?.header, contact: data?.contact_information }}
         />
-        <About data={data.professional_summary} />
-        <Education data={data.education} />
-        <WorkExp data={data.work_experience} />
-        <Skills data={data.key_skills} />
+        <About data={data?.professional_summary} />
+        <Education data={data?.education} />
+        <WorkExp data={data?.work_experience} />
+        <Skills data={data?.key_skills} />
       </div>
     </>
   );

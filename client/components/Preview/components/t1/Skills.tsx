@@ -24,28 +24,36 @@ const Skills = ({ data }: SkillsProps) => {
 
       <CardContent className="p-0 text-black space-y-2 text-sm">
         {/* Marketing */}
-        <div className="grid grid-cols-[140px_1fr] gap-2">
-          <p className="font-semibold">Marketing</p>
-          <p>{(skills.marketing ?? []).join(", ")}</p>
-        </div>
+        {(skills?.marketing ?? []).length > 0 && (
+          <div className="grid grid-cols-[140px_1fr] gap-2">
+            <p className="font-semibold">Marketing</p>
+            <p>{(skills.marketing ?? []).join(", ")}</p>
+          </div>
+        )}
 
         {/* Analytics */}
-        <div className="grid grid-cols-[140px_1fr] gap-2">
-          <p className="font-semibold">Analytics</p>
-          <p>{(skills.analytics ?? []).join(", ")}</p>
-        </div>
+        {(skills.analytics ?? []).length > 0 && (
+          <div className="grid grid-cols-[140px_1fr] gap-2">
+            <p className="font-semibold">Analytics</p>
+            <p>{(skills.analytics ?? []).join(", ")}</p>
+          </div>
+        )}
 
         {/* Tools */}
-        <div className="grid grid-cols-[140px_1fr] gap-2">
-          <p className="font-semibold">Tools</p>
-          <p>{(skills.tools ?? []).join(", ")}</p>
-        </div>
+        {(skills.tools ?? []).length > 0 && (
+          <div className="grid grid-cols-[140px_1fr] gap-2">
+            <p className="font-semibold">Tools</p>
+            <p>{(skills.tools ?? []).join(", ")}</p>
+          </div>
+        )}
 
         {/* Soft Skills */}
-        <div className="grid grid-cols-[140px_1fr] gap-2">
-          <p className="font-semibold">Soft Skills</p>
-          <p>{(skills.soft_skills ?? []).join(", ")}</p>
-        </div>
+        {(skills.tools ?? []).length > 0 && (
+          <div className="grid grid-cols-[140px_1fr] gap-2">
+            <p className="font-semibold">Soft Skills</p>
+            <p>{(skills.soft_skills ?? []).join(", ")}</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
