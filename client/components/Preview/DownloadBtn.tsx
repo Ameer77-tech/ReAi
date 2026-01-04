@@ -7,30 +7,35 @@ import download from "@/lib/Download";
 import T1 from "./T1";
 import { T1Props } from "@/types/preview";
 import { Spinner } from "../ui/spinner";
+import T5 from "./T5";
+import T4 from "./T4";
+import T3 from "./T3";
+import T2 from "./T2";
 
 const DownloadBtn = ({ data }: T1Props) => {
   const templateId = useResumeStore((s) => s.templateId);
+  const id = templateId + 1;
   const [pending, setPending] = useState(false);
   const DownFunc = () => {
     setPending(true);
-    switch (templateId) {
+    switch (id) {
       case 1:
-        download(<T1 data={data} />, setPending);
+        download(<T1 />, setPending);
         break;
       case 2:
-        download(<T1 data={data} />, setPending);
+        download(<T2 />, setPending);
         break;
       case 3:
-        download(<T1 data={data} />, setPending);
+        download(<T3 />, setPending);
         break;
       case 4:
-        download(<T1 data={data} />, setPending);
+        download(<T4 />, setPending);
         break;
       case 5:
-        download(<T1 data={data} />, setPending);
+        download(<T5 data={data} />, setPending);
         break;
       default:
-        download(<T1 data={data} />, setPending);
+        download(<T5 data={data} />, setPending);
     }
   };
   return (

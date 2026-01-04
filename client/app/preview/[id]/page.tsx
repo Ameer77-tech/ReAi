@@ -1,15 +1,23 @@
 import T1 from "@/components/Preview/T1";
 import DownloadBtn from "@/components/Preview/DownloadBtn";
+import T2 from "@/components/Preview/T2";
+import T3 from "@/components/Preview/T3";
+import T4 from "@/components/Preview/T4";
+import T5 from "@/components/Preview/T5";
 
 type PageProps = {
   params: {
     id: string;
   };
+  searchParams: {
+    template: string;
+  };
 };
 
-const Page = async ({ params }: PageProps) => {
+const Page = async ({ params, searchParams }: PageProps) => {
   const { id } = await params;
-
+  const sp = await searchParams;
+  const template = parseInt(sp.template) || 1;
   const apiUrl = `${process.env.NEXT_PUBLIC_SERVER}/api/generate/${id}`;
 
   const reply = {
@@ -45,7 +53,20 @@ const Page = async ({ params }: PageProps) => {
 
   return reply.success ? (
     <div className="flex justify-center items-start min-h-screen overflow-scroll p-10">
-      <T1 data={res.resume} />
+      {template === 5 ? (
+        <T5 data={res.resume} />
+      ) : template === 1 ? (
+        <T1 />
+      ) : template === 2 ? (
+        <T2 />
+      ) : template === 3 ? (
+        <T3 />
+      ) : template === 4 ? (
+        <T4 />
+      ) : (
+        <T5 data={res.resume} />
+      )}
+
       <DownloadBtn data={res.resume} />
     </div>
   ) : (

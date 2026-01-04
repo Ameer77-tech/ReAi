@@ -160,7 +160,7 @@ const Page = () => {
                   key="template"
                   className="h-full"
                 >
-                  <Template step={step} setStep={setStep} />
+                  <Template />
                 </motion.div>
               )}
 

@@ -11,12 +11,10 @@ import { useResumeStore } from "@/app/store/store";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-type Props = {
-  setStep: void;
-  step: number;
-};
 
-const Template = ({ setStep, step }: Props) => {
+const Template = () => {
+  const step = useResumeStore((s) => s.step);
+    const setStep = useResumeStore((s) => s.setStep);
   const templates = [t2, t3, t4, t5, t1];
   const templatedId = useResumeStore((state) => state.templateId);
   const setTemplatedId = useResumeStore((state) => state.setTemplate);
