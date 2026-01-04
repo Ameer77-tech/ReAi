@@ -25,28 +25,34 @@ const WorkExp = ({ data }: WorkExpProps) => {
   const workExperience = data && data.length > 0 ? data : defaultWork;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-6 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Professional Experience
+    <Card className="bg-transparent rounded-none border-0 shadow-none border-b-2 border-black gap-2">
+      <CardTitle className="text-black font-extrabold text-2xl uppercase tracking-wide">
+        Work Experience
       </CardTitle>
 
       <CardContent className="p-0 text-black">
         {workExperience.map((w, idx) => (
           <div key={idx} className="mb-5">
             {/* Header row */}
-            <div className="grid grid-cols-3 gap-2 items-start">
+            <div className="grid grid-cols-[1fr_auto] gap-2 items-start">
               <div>
-                <p className="text-lg leading-tight font-bold">{w.job_title}</p>
+                <p className="font-semibold text-sm leading-tight">
+                  {w.job_title}
+                </p>
+
+                <p className="text-sm">{w.employer}</p>
+
+                <p className="text-xs text-muted-foreground">{w.location}</p>
               </div>
 
-              <p className="text-sm whitespace-nowrap col-span-2 text-center">
+              <p className="text-xs whitespace-nowrap">
                 {w.start_date} – {w.end_date}
               </p>
             </div>
 
             {/* Achievements */}
             {w.achievements && w.achievements.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs">
+              <ul className="mt-1 ml-4 list-disc text-xs text-muted-foreground">
                 {w.achievements.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

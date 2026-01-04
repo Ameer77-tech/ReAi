@@ -2,16 +2,14 @@
 
 import { manrope } from "@/fonts/Fonts";
 import { cn } from "@/lib/utils";
-import Header from "./components/t1/Header";
-import About from "./components/t1/About";
-import Education from "./components/t1/Education";
-import WorkExp from "./components/t1/WorkExp";
-import Skills from "./components/t1/Skills";
-import type { T1Props } from "@/types/preview";
+import Header from "./components/t5/Header";
+import About from "./components/t5/About";
+import Education from "./components/t5/Education";
+import WorkExp from "./components/t5/WorkExp";
+import Skills from "./components/t5/Skills";
+import type { TProps } from "@/types/preview";
 
-const T5 = ({ data }: T1Props) => {
- 
-
+const T5 = ({ data }: TProps) => {
   return (
     <>
       <div

@@ -20,23 +20,21 @@ export default function E({
   return (
     <div className="mb-5">
       {/* Header row */}
-      <div className="grid grid-cols-3 gap-2 items-start">
+      <div className="grid grid-cols-[1fr_auto] gap-2 items-start">
         <div>
-          <p className="text-lg">
+          <p className="text-sm">
             {degree} in {fieldOfStudy}
           </p>
           <p className="font-semibold text-sm leading-tight">{institute}</p>
-          <p className="text-sm text-black/70">{location}</p>
+          <p className="text-xs text-muted-foreground">{location}</p>
         </div>
 
-        <p className="text-sm whitespace-nowrap col-span-2 text-center">
-          {gradYear}
-        </p>
+        <p className="text-xs whitespace-nowrap">{gradYear}</p>
       </div>
 
       {/* Honors */}
       {honors.length > 0 && (
-        <ul className="mt-1 ml-4 list-disc text-sm font-medium">
+        <ul className="mt-1 ml-4 list-disc text-xs text-muted-foreground">
           {honors.map((honor, idx) => (
             <li key={idx}>{honor}</li>
           ))}

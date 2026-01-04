@@ -17,12 +17,12 @@ const Skills = ({ data }: SkillsProps) => {
   const skills = data ?? defaultSkills;
 
   return (
-    <Card className="bg-transparent rounded-none shadow-none border-0 gap-2 mt-3 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
+    <Card className="bg-transparent rounded-none border-0 shadow-none border-black gap-2">
+      <CardTitle className="text-black font-extrabold text-2xl uppercase tracking-wide">
         Skills
       </CardTitle>
 
-      <CardContent className="p-0 text-black font-medium space-y-2 text-sm">
+      <CardContent className="p-0 text-black space-y-2 text-sm">
         {/* Marketing */}
         {(skills?.marketing ?? []).length > 0 && (
           <div className="grid grid-cols-[140px_1fr] gap-2">

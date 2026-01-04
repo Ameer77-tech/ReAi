@@ -62,6 +62,6 @@ export interface PreviewData {
   certifications?: Certification[];
 }
 
-export interface T1Props {
+export interface TProps {
   data: PreviewData;
 }

@@ -5,14 +5,14 @@ import { Download } from "lucide-react";
 import { useResumeStore } from "@/app/store/store";
 import download from "@/lib/Download";
 import T1 from "./T1";
-import { T1Props } from "@/types/preview";
+import { TProps } from "@/types/preview";
 import { Spinner } from "../ui/spinner";
 import T5 from "./T5";
 import T4 from "./T4";
 import T3 from "./T3";
 import T2 from "./T2";
 
-const DownloadBtn = ({ data }: T1Props) => {
+const DownloadBtn = ({ data }: TProps) => {
   const templateId = useResumeStore((s) => s.templateId);
   const id = templateId + 1;
   const [pending, setPending] = useState(false);
@@ -20,7 +20,7 @@ const DownloadBtn = ({ data }: T1Props) => {
     setPending(true);
     switch (id) {
       case 1:
-        download(<T1 />, setPending);
+        download(<T1 data={data} />, setPending);
         break;
       case 2:
         download(<T2 />, setPending);
