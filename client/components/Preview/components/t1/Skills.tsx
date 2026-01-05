@@ -17,7 +17,7 @@ const Skills = ({ data }: SkillsProps) => {
   const skills = data ?? defaultSkills;
 
   return (
-    <Card className="bg-transparent rounded-none shadow-none border-0 gap-2 mt-3 p-0">
+    <Card className="bg-transparent rounded-none shadow-none border-0 gap-2 p-0">
       <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
         Skills
       </CardTitle>

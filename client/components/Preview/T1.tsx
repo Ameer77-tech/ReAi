@@ -7,6 +7,7 @@ import About from "./components/t1/About";
 import Education from "./components/t1/Education";
 import WorkExp from "./components/t1/WorkExp";
 import Skills from "./components/t1/Skills";
+import Projects from "./components/t1/Projects";
 
 const T1 = ({ data }: TProps) => {
   return (
@@ -25,6 +26,7 @@ const T1 = ({ data }: TProps) => {
         <Skills data={data?.key_skills} />
         <WorkExp data={data?.work_experience} />
         <Education data={data?.education} />
+        <Projects data={data?.projects} />
       </div>
     </>
   );

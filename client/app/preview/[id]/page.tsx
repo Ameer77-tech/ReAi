@@ -5,6 +5,11 @@ import T3 from "@/components/Preview/T3";
 import T4 from "@/components/Preview/T4";
 import T5 from "@/components/Preview/T5";
 import ChangeTemplate from "@/components/Preview/components/Toptions";
+import { HomeIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import nProgress from "nprogress";
+import { redirect } from "next/navigation";
+import HomeRedirect from "@/components/HomeRedirect";
 
 type PageProps = {
   params: {
@@ -53,23 +58,26 @@ const Page = async ({ params, searchParams }: PageProps) => {
   }
 
   return reply.success ? (
-    <div className="flex justify-evenly items-start min-h-screen overflow-scroll p-10">
-      {template === 5 ? (
-        <T5 data={res.resume} />
-      ) : template === 1 ? (
-        <T1 data={res.resume} />
-      ) : template === 2 ? (
-        <T2 />
-      ) : template === 3 ? (
-        <T3 />
-      ) : template === 4 ? (
-        <T4 />
-      ) : (
-        <T5 data={res.resume} />
-      )}
-      <ChangeTemplate t={template}/>
-      <DownloadBtn data={res.resume} />
-    </div>
+    <>
+      <HomeRedirect />
+      <div className="flex justify-evenly items-start min-h-screen overflow-scroll p-10">
+        {template === 5 ? (
+          <T5 data={res.resume} />
+        ) : template === 1 ? (
+          <T1 data={res.resume} />
+        ) : template === 2 ? (
+          <T2 />
+        ) : template === 3 ? (
+          <T3 />
+        ) : template === 4 ? (
+          <T4 />
+        ) : (
+          <T5 data={res.resume} />
+        )}
+        <ChangeTemplate t={template} />
+        <DownloadBtn data={res.resume} />
+      </div>
+    </>
   ) : (
     <p className="text-center text-4xl">{reply.message}</p>
   );

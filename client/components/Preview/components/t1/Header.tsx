@@ -12,7 +12,7 @@ type HeaderProps = {
 const Header = ({ data }: HeaderProps) => {
   return (
     <Card className="bg-transparent rounded-none border-0 shadow-none gap-1 p-0">
-      <CardTitle className="text-4xl font-bold tracking-wide text-secondary">
+      <CardTitle className="text-4xl font-bold tracking-wide text-black">
         {data?.header?.full_name ?? ""}
       </CardTitle>
       <CardContent className="capitalize text-black text-md  font-bold tracking-wide p-0">

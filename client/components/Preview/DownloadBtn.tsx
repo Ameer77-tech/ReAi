@@ -11,14 +11,16 @@ import T5 from "./T5";
 import T4 from "./T4";
 import T3 from "./T3";
 import T2 from "./T2";
+import { useSearchParams } from "next/navigation";
 
 const DownloadBtn = ({ data }: TProps) => {
-  const templateId = useResumeStore((s) => s.templateId);
-  const id = templateId + 1;
+  const sp = useSearchParams();
+  const templateId = Number(sp.get("template") ?? 1);
   const [pending, setPending] = useState(false);
+
   const DownFunc = () => {
     setPending(true);
-    switch (id) {
+    switch (templateId) {
       case 1:
         download(<T1 data={data} />, setPending);
         break;

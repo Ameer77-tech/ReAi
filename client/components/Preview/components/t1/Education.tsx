@@ -30,7 +30,7 @@ const Education = ({ data }: EducationProps) => {
   const education = data && data.length > 0 ? data : defaultEducation;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-6 p-0">
+    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-4 p-0">
       <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
         Education
       </CardTitle>
