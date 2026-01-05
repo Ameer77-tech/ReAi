@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import type { KeySkills } from "@/types/preview";
 
@@ -6,48 +6,43 @@ type SkillsProps = {
   data?: KeySkills;
 };
 
-const defaultSkills: KeySkills = {
-  marketing: ["Digital Marketing", "SEO & SEM", "Content Strategy"],
-  analytics: ["Google Analytics", "Data Interpretation"],
-  tools: ["Google Ads", "Meta Ads Manager"],
-  soft_skills: ["Communication", "Problem Solving"],
-};
-
 const Skills = ({ data }: SkillsProps) => {
-  const skills = data ?? defaultSkills;
+  if (!data) return null;
 
   return (
-    <Card className="bg-transparent rounded-none shadow-none border-0 gap-2 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Skills
-      </CardTitle>
+    <Card className="bg-transparent rounded-none border-0 shadow-none mt-4 gap-1 p-0 py-5">
+      {/* Heading + line */}
+      <div className="flex items-center gap-5">
+        <h2 className="text-sm font-semibold text-black">Skills</h2>
+        <div className="w-full h-px bg-black/30" />
+      </div>
 
-      <CardContent className="p-0 text-black font-medium space-y-2 text-sm">
-        {(skills?.marketing ?? []).length > 0 && (
-          <div className="grid grid-cols-[140px_1fr] gap-2">
+      <CardContent className="p-0 text-black text-sm space-y-1">
+        {(data.marketing ?? []).length > 0 && (
+          <div className="grid grid-cols-[160px_1fr]">
             <p className="font-semibold">Marketing</p>
-            <p>{(skills.marketing ?? []).join(", ")}</p>
+            <p>{(data.marketing ?? []).join(", ")}</p>
           </div>
         )}
 
-        {(skills.analytics ?? []).length > 0 && (
-          <div className="grid grid-cols-[140px_1fr] gap-2">
+        {(data.analytics ?? []).length > 0 && (
+          <div className="grid grid-cols-[160px_1fr]">
             <p className="font-semibold">Analytics</p>
-            <p>{(skills.analytics ?? []).join(", ")}</p>
+            <p>{(data.analytics ?? []).join(", ")}</p>
           </div>
         )}
 
-        {(skills.tools ?? []).length > 0 && (
-          <div className="grid grid-cols-[140px_1fr] gap-2">
+        {(data.tools ?? []).length > 0 && (
+          <div className="grid grid-cols-[160px_1fr]">
             <p className="font-semibold">Tools</p>
-            <p>{(skills.tools ?? []).join(", ")}</p>
+            <p>{(data.tools ?? []).join(", ")}</p>
           </div>
         )}
 
-        {(skills.tools ?? []).length > 0 && (
-          <div className="grid grid-cols-[140px_1fr] gap-2">
+        {(data.soft_skills ?? []).length > 0 && (
+          <div className="grid grid-cols-[160px_1fr]">
             <p className="font-semibold">Soft Skills</p>
-            <p>{(skills.soft_skills ?? []).join(", ")}</p>
+            <p>{(data.soft_skills ?? []).join(", ")}</p>
           </div>
         )}
       </CardContent>

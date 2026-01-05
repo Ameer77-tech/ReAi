@@ -1,50 +1,54 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import E from "./E";
 import type { EducationItem } from "@/types/preview";
 
 type EducationProps = {
   data?: EducationItem[];
 };
 
-const defaultEducation: EducationItem[] = [
-  {
-    institution: "Aditya Engineering College",
-    degree: "B.Tech",
-    field_of_study: "Computer Science and Engineering",
-    graduation_year: "2026",
-    location: "Kakinada, Andhra Pradesh",
-    honors: ["CGPA 8.5", "Merit Scholarship Recipient"],
-  },
-  {
-    institution: "XYZ Polytechnic College",
-    degree: "Diploma",
-    field_of_study: "Computer Engineering",
-    graduation_year: "2023",
-    location: "Andhra Pradesh",
-    honors: [],
-  },
-];
-
 const Education = ({ data }: EducationProps) => {
-  const education = data && data.length > 0 ? data : defaultEducation;
+  if (!data || data.length === 0) return null;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-4 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Education
-      </CardTitle>
-      <CardContent className="text-black grid grid-cols-1 p-0">
-        {education.map((e, idx) => (
-          <E
+    <Card className="bg-transparent rounded-none border-0 shadow-none mt-4 p-0 gap-0 py-5">
+      {/* Section header */}
+      <div className="flex items-center gap-5 mb-3">
+        <h2 className="text-sm font-semibold text-black">
+          Education and Training
+        </h2>
+        <div className="flex-1 h-px bg-black/30" />
+      </div>
+
+      <CardContent className="p-0 text-black space-y-6">
+        {data.map((e, idx) => (
+          <div
             key={idx}
-            institute={e.institution}
-            degree={e.degree}
-            fieldOfStudy={e.field_of_study ?? ""}
-            gradYear={e.graduation_year ?? ""}
-            location={e.location ?? ""}
-            honors={e.honors ?? []}
-          />
+            className="grid grid-cols-[260px_1fr] gap-6 items-start"
+          >
+            {/* LEFT COLUMN */}
+            <div className="text-sm">
+              <p className="font-semibold">
+                {e.institution}
+                {e.location ? ` | ${e.location}` : ""}
+              </p>
+              <p className="italic">
+                {e.degree}
+                {e.field_of_study ? ` in ${e.field_of_study}` : ""}
+              </p>
+              {e.graduation_year && (
+                <p className="text-xs text-black/70">{e.graduation_year}</p>
+              )}
+            </div>
+
+            {/* RIGHT COLUMN (Honors / Notes) */}
+            {e.honors && e.honors.length > 0 && (
+              <ul className="list-disc text-sm space-y-1">
+                {e.honors.map((honor, hIdx) => (
+                  <li key={hIdx}>{honor}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         ))}
       </CardContent>
     </Card>

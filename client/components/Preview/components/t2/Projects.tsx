@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
 type ProjectItem = {
@@ -17,52 +17,49 @@ const Projects = ({ data }: ProjectsProps) => {
   if (!data || data.length === 0) return null;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-4 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Projects
-      </CardTitle>
+    <Card className="bg-transparent rounded-none border-0 shadow-none mt-4 p-0 pb-5 gap-0">
+      {/* Section header */}
+      <div className="flex items-center gap-5 mb-3">
+        <h2 className="text-sm font-semibold text-black">Projects</h2>
+        <div className="w-full h-px bg-black/30" />
+      </div>
 
-      <CardContent className="p-0 text-black">
+      <CardContent className="p-0 text-black space-y-6">
         {data.map((p, idx) => (
-          <div key={idx} className="mb-5">
-            {/* Header row */}
-            <div className="grid grid-cols-3 gap-2 items-start">
-              <div className="col-span-2">
-                <p className="text-lg leading-tight font-bold">
-                  {idx + 1}) {p.name}
-                </p>
-              </div>
+          <div
+            key={idx}
+            className="grid grid-cols-[260px_1fr] gap-6 items-start"
+          >
+            {/* LEFT COLUMN */}
+            <div className="text-sm">
+              <p className="font-semibold">{p.name}</p>
 
               {p.link && (
-                <p className="text-xs text-right whitespace-nowrap text-blue-600">
-                  {p.link}
-                </p>
+                <p className="text-xs text-blue-600 break-all">{p.link}</p>
               )}
             </div>
 
-            {/* Description */}
-            {p.description && (
-              <p className="mt-1 text-xs leading-relaxed max-w-[90%]">
-                {p.description}
-              </p>
-            )}
+            {/* RIGHT COLUMN */}
+            <div className="text-sm space-y-1">
+              {p.description && (
+                <p className="leading-relaxed">{p.description}</p>
+              )}
 
-            {/* Tools Used */}
-            {p.tools_used && p.tools_used.length > 0 && (
-              <p className="mt-1 text-xs">
-                <span className="font-semibold">Tools Used:</span>{" "}
-                {p.tools_used.join(", ")}
-              </p>
-            )}
+              {p.tools_used && p.tools_used.length > 0 && (
+                <p className="text-xs">
+                  <span className="font-semibold">Tools:</span>{" "}
+                  {p.tools_used.join(", ")}
+                </p>
+              )}
 
-            {/* Outcomes */}
-            {p.outcomes && p.outcomes.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs">
-                {p.outcomes.map((point, pIdx) => (
-                  <li key={pIdx}>{point}</li>
-                ))}
-              </ul>
-            )}
+              {p.outcomes && p.outcomes.length > 0 && (
+                <ul className="list-disc ml-4 text-sm space-y-1">
+                  {p.outcomes.map((point, pIdx) => (
+                    <li key={pIdx}>{point}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
         ))}
       </CardContent>

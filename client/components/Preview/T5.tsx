@@ -14,9 +14,9 @@ const T5 = ({ data }: TProps) => {
     <>
       <div
         className={cn(
-          `bg-white w-[800px] aspect-[1/1.414] p-10`,
+          "bg-white w-full max-w-[800px] aspect-[1/1.414] p-6 sm:p-8 md:p-10",
           manrope.className,
-          "antialiased"
+          "antialiased mx-auto"
         )}
       >
         <Header

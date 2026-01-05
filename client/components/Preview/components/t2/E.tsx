@@ -18,25 +18,25 @@ export default function E({
   honors,
 }: EProps) {
   return (
-    <div className="mb-5">
-      {/* Header row */}
-      <div className="grid grid-cols-3 gap-2 items-start">
-        <div>
-          <p className="text-lg">
-            {degree} in {fieldOfStudy}
-          </p>
-          <p className="font-semibold text-sm leading-tight">{institute}</p>
-          <p className="text-sm text-black/70">{location}</p>
-        </div>
-
-        <p className="text-sm whitespace-nowrap col-span-2 text-center">
-          {gradYear}
+    <div className="grid grid-cols-[260px_1fr] gap-6 items-start mb-5">
+      {/* LEFT COLUMN */}
+      <div className="text-sm">
+        <p className="font-semibold">
+          {institute}
+          {location ? ` | ${location}` : ""}
         </p>
+
+        <p className="italic">
+          {degree}
+          {fieldOfStudy ? ` in ${fieldOfStudy}` : ""}
+        </p>
+
+        {gradYear && <p className="text-xs text-black/70">{gradYear}</p>}
       </div>
 
-      {/* Honors */}
+      {/* RIGHT COLUMN */}
       {honors.length > 0 && (
-        <ul className="mt-1 ml-4 list-disc text-sm font-medium">
+        <ul className="list-disc text-sm space-y-1">
           {honors.map((honor, idx) => (
             <li key={idx}>{honor}</li>
           ))}

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import type { WorkExperienceItem } from "@/types/preview";
 
@@ -6,47 +6,38 @@ type WorkExpProps = {
   data?: WorkExperienceItem[];
 };
 
-const defaultWork: WorkExperienceItem[] = [
-  {
-    job_title: "Software Engineering Intern",
-    employer: "TechNova Solutions",
-    location: "Hyderabad, India",
-    start_date: "Jan 2025",
-    end_date: "Jun 2025",
-    achievements: [
-      "Built REST APIs using Node.js and Express",
-      "Implemented JWT-based authentication",
-      "Collaborated with frontend team on React integration",
-    ],
-  },
-];
-
 const WorkExp = ({ data }: WorkExpProps) => {
-  const workExperience = data && data.length > 0 ? data : defaultWork;
+  if (!data || data.length === 0) return null;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-4 p-0">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Professional Experience
-      </CardTitle>
+    <Card className="bg-transparent rounded-none border-0 shadow-none mt-4 gap-0 p-0 pb-3">
+      {/* Section header */}
+      <div className="flex items-center mb-3 gap-5">
+        <h2 className="text-sm font-semibold text-black">Experience</h2>
+        <div className="w-full h-px bg-black/30" />
+      </div>
 
-      <CardContent className="p-0 text-black">
-        {workExperience.map((w, idx) => (
-          <div key={idx} className="mb-5">
-            {/* Header row */}
-            <div className="grid grid-cols-3 gap-2 items-start">
-              <div>
-                <p className="text-lg leading-tight font-bold">{w.job_title}</p>
-              </div>
-
-              <p className="text-sm whitespace-nowrap col-span-2 text-center">
+      <CardContent className="p-0 text-black space-y-6">
+        {data.map((w, idx) => (
+          <div
+            key={idx}
+            className="grid grid-cols-[260px_1fr] gap-6 items-start"
+          >
+            {/* LEFT COLUMN */}
+            <div className="text-sm">
+              <p className="font-semibold">
+                {w.employer}
+                {w.location ? ` | ${w.location}` : ""}
+              </p>
+              <p className="italic">{w.job_title}</p>
+              <p className="text-xs text-black/70">
                 {w.start_date} – {w.end_date}
               </p>
             </div>
 
-            {/* Achievements */}
+            {/* RIGHT COLUMN */}
             {w.achievements && w.achievements.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs">
+              <ul className="list-disc text-sm space-y-1">
                 {w.achievements.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

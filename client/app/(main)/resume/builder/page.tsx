@@ -27,7 +27,6 @@ import {
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
-import HomeRedirect from "@/components/HomeRedirect";
 
 /* -------------------------------------------------- */
 /* Animation variants */
@@ -92,7 +91,16 @@ const Page = () => {
         </DialogContent>
       </Dialog>
       <div className="absolute top-3 px-5 flex w-full justify-between items-center">
-        <HomeRedirect />
+        <Button
+          onClick={() => {
+            nProgress.start();
+            router.replace("/");
+          }}
+          variant={"ghost"}
+          size={"sm"}
+        >
+          <HomeIcon></HomeIcon>
+        </Button>
         <Button
           onClick={() => setShowDialog(true)}
           variant={"destructive"}

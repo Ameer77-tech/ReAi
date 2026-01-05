@@ -60,7 +60,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
   return reply.success ? (
     <>
       <HomeRedirect />
-      <div className="flex justify-evenly items-start min-h-screen overflow-scroll p-10">
+      <div className="flex lg:flex-row md:flex-row flex-col-reverse justify-center items-center lg:justify-evenly lg:items-start gap-5 lg:gap-0 md:gap-0 min-h-screen overflow-scroll p-10">
         {template === 5 ? (
           <T5 data={res.resume} />
         ) : template === 1 ? (

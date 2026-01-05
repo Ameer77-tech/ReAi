@@ -1,4 +1,4 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import type { PreviewData } from "@/types/preview";
 
@@ -7,14 +7,20 @@ type AboutProps = {
 };
 
 const About = ({ data }: AboutProps) => {
+  if (!data) return null;
+
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2">
-      <CardTitle className="text-black italic text-sm bg-stone-300 rounded-full py-1 px-5 uppercase tracking-wide">
-        Summary
-      </CardTitle>
-      <CardContent className="text-black font-medium p-0">
-        {data ??
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam fuga voluptate quia eveniet iure necessitatibus ipsam totam rem dolorum, quae cum aperiam et laborum deserunt dolor vitae saepe esse beatae!"}
+    <Card className="bg-transparent rounded-none border-0 shadow-none mt-4 gap-1 p-0 pb-3">
+      {/* Heading */}
+      <div className="flex items-center gap-5">
+        <h2 className="text-sm font-semibold text-black">Summary</h2>
+
+        {/* Divider line */}
+        <div className="w-full h-px bg-black/30" />
+      </div>
+      {/* Content */}
+      <CardContent className="p-0 text-black font-light text-sm leading-relaxed">
+        {data}
       </CardContent>
     </Card>
   );
