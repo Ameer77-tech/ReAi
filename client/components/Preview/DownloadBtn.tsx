@@ -25,10 +25,10 @@ const DownloadBtn = ({ data }: TProps) => {
         download(<T1 data={data} />, setPending);
         break;
       case 2:
-        download(<T2 data={data}/>, setPending);
+        download(<T2 data={data} />, setPending);
         break;
       case 3:
-        download(<T3 />, setPending);
+        download(<T3 data={data} />, setPending);
         break;
       case 4:
         download(<T4 />, setPending);

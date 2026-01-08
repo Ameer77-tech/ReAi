@@ -19,7 +19,7 @@ const About = ({ data }: AboutProps) => {
         <div className="w-full h-px bg-black/30" />
       </div>
       {/* Content */}
-      <CardContent className="p-0 text-black font-light text-sm leading-relaxed">
+      <CardContent className="p-0 text-black font-medium text-sm leading-relaxed">
         {data}
       </CardContent>
     </Card>

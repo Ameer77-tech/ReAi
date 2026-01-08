@@ -68,7 +68,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
         ) : template === 2 ? (
           <T2 data={res.resume} />
         ) : template === 3 ? (
-          <T3 />
+          <T3 data={res.resume} />
         ) : template === 4 ? (
           <T4 />
         ) : (
