@@ -29,6 +29,8 @@ const Projects = () => {
   const router = useRouter();
 
   const stored = useResumeStore((s) => s.projects);
+ 
+  
   const setProject = useResumeStore((s) => s.setProjects);
   const removeProject = useResumeStore((s) => s.removeProject);
 
@@ -130,6 +132,7 @@ const Projects = () => {
     setProject(projects);
 
     const state = useResumeStore.getState();
+
     try {
       const res = await SubmitData(state);
       if (res.ok) {

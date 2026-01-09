@@ -19,7 +19,7 @@ const T3 = ({ data }: TProps) => {
           "antialiased mx-auto"
         )}
       >
-        <div className="grid grid-cols-[1fr_1.6fr] h-full gap-6">
+        <div className="grid grid-cols-[1fr_1.6fr] h-auto gap-6">
           {/* Left column - compact sidebar */}
           <aside className="flex flex-col gap-6 border-r border-r-muted-foreground">
             <Header
