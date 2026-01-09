@@ -1,4 +1,5 @@
 import NProgressProvider from "@/components/progressLoad";
+import { Suspense } from "react";
 import "./globals.css";
 import { mulish, manrope } from "@/fonts/Fonts";
 import { metadata } from "@/lib/MetaData";
@@ -15,7 +16,9 @@ export default function RootLayout({
       <body
         className={`${mulish.className} ${manrope.className} font-extrabold antialiased bg-`}
       >
-        <NProgressProvider />
+        <Suspense fallback={null}>
+          <NProgressProvider />
+        </Suspense>
         {children}
       </body>
     </html>

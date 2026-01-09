@@ -36,12 +36,15 @@ const Skills = () => {
 
   const addSkill = (category: CategoryKey) => {
     const updated = { ...skills };
-    updated[category]?.push("");
+    if (!updated[category]) updated[category] = [""];
+    else updated[category].push("");
     setSkillsState(updated);
   };
 
   const updateSkill = (category: CategoryKey, idx: number, value: string) => {
     const updated = { ...skills };
+    if (!updated[category]) updated[category] = [""];
+    while (updated[category].length <= idx) updated[category].push("");
     updated[category][idx] = value;
     setSkillsState(updated);
   };
@@ -94,7 +97,7 @@ const Skills = () => {
             >
               <Label className="text-base font-medium">{cat.label}</Label>
 
-              {skills[cat.key]?.map((item, idx) => (
+              {(skills[cat.key] || []).map((item, idx) => (
                 <div key={idx} className="flex gap-2">
                   <Input
                     value={item}

@@ -11,10 +11,16 @@ export default function VantaDots({ children }: { children: React.ReactNode }) {
     let DOTS: any;
 
     async function initVanta() {
-      const THREE = (await import("three")).THREE || (await import("three"));
+      const threeModule = await import("three");
+      const THREE =
+        (threeModule as any).THREE ??
+        (threeModule as any).default ??
+        (threeModule as any);
       (window as any).THREE = THREE;
 
-      DOTS = (await import("vanta/dist/vanta.dots.min")).default;
+      // vanta has no types; silence TypeScript for this dynamic import
+      // @ts-ignore
+      DOTS = (await import("vanta/dist/vanta.dots.min")).default as any;
 
       if (vantaRef.current && !vantaEffect.current) {
         vantaEffect.current = DOTS({

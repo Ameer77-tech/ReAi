@@ -2,7 +2,10 @@
 import { renderToString } from "react-dom/server";
 import { Slide, toast } from "react-toastify";
 
- const download = async (comp : React.ReactNode, setPending) => {
+ const download = async (
+  comp: React.ReactNode,
+  setPending: (v: boolean) => void
+): Promise<void> => {
     const rendered = renderToString(comp);
     const html = `
     ${rendered}

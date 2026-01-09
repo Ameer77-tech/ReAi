@@ -85,13 +85,17 @@ const Education = () => {
 
   const updateHonor = (eduIndex: number, honorIndex: number, value: string) => {
     const updated = [...education];
-    updated[eduIndex].honors[honorIndex] = value;
+    if (!updated[eduIndex]) return;
+    if (!updated[eduIndex].honors) updated[eduIndex].honors = [""];
+    updated[eduIndex].honors![honorIndex] = value;
     setEducationState(updated);
   };
 
   const addHonor = (index: number) => {
     const updated = [...education];
-    updated[index].honors.push("");
+    if (!updated[index]) return;
+    if (!updated[index].honors) updated[index].honors = [""];
+    else updated[index].honors.push("");
     setEducationState(updated);
   };
 
@@ -220,7 +224,7 @@ const Education = () => {
               {/* HONORS */}
               <div className="space-y-3">
                 <Label>Honors / Achievements (optional)</Label>
-                {edu.honors.map((honor, hIdx) => (
+                {edu.honors?.map((honor, hIdx) => (
                   <Input
                     key={hIdx}
                     placeholder="First Class with Distinction"
