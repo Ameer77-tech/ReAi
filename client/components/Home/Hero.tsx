@@ -9,6 +9,7 @@ import { motion, type Variants } from "framer-motion";
 import GradientShine from "./GradientShine";
 import { useRouter } from "next/navigation";
 import NProgress from "nprogress";
+import { cn } from "@/lib/utils";
 
 const parentVariants: Variants = {
   initial: {
@@ -38,8 +39,35 @@ const childVariants: Variants = {
   },
 };
 
+const heroParentVariants: Variants = {
+  initial: {},
+  hover: {
+    transition: {
+      staggerChildren: 0.006,
+    },
+  },
+};
+const topLetter: Variants = {
+  initial: { y: 0 },
+  hover: {
+    y: "-110%",
+    transition: { duration: 0.25, ease: "easeOut" },
+  },
+};
+
+const bottomLetter: Variants = {
+  initial: { y: "100%" },
+  hover: {
+    y: "0%",
+    transition: { duration: 0.25, ease: "easeOut" },
+  },
+};
+
+const MotionButton = motion(Button);
+
 const Hero = () => {
   const router = useRouter();
+  const stringName = "Generate My Resume";
   return (
     <motion.div
       variants={parentVariants}
@@ -93,9 +121,20 @@ const Hero = () => {
                 NProgress.start();
                 setTimeout(() => NProgress.done(), 3000);
               }}
-              className={`rounded-xl ${quicksand.className} font-black antialiased cursor-pointer py-7 text-background bg-linear-to-r from-primary from-50% to-background/60`}
+              className={`${quicksand.className} py-6 text-lg font-black flex items-center gap-2 text-black bg-linear-to-r from-50% from-primary to-secondary/70`}
             >
-              Generate My Resume <ArrowRight />
+              <motion.div
+                variants={heroParentVariants}
+                initial="initial"
+                whileHover="hover"
+                className="flex"
+              >
+                {stringName.split("").map((char, index) => (
+                  <AnimatedLetter key={index} char={char} />
+                ))}
+              </motion.div>
+
+              <ArrowRight />
             </Button>
           </CardFooter>
         </motion.div>
@@ -105,3 +144,23 @@ const Hero = () => {
 };
 
 export default Hero;
+
+const AnimatedLetter = ({ char }: { char: string }) => {
+  return (
+    <span className="relative inline-block overflow-hidden h-[1em] min-w-[1ch] leading-none">
+      <motion.span
+        variants={topLetter}
+        className={cn("absolute inset-0 flex items-center justify-center")}
+      >
+        {char === " " ? "\u00A0" : char}
+      </motion.span>
+
+      <motion.span
+        variants={bottomLetter}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        {char === " " ? "\u00A0" : char}
+      </motion.span>
+    </span>
+  );
+};

@@ -38,12 +38,6 @@ const Header = () => {
           >
             Home
           </p>
-          <Link
-            href="/docs"
-            className="text-muted cursor-pointer hover:text-foreground transition"
-          >
-            How it Works
-          </Link>
           <p
             onClick={() => scrollToSection("templates")}
             className="text-muted cursor-pointer hover:text-foreground transition"

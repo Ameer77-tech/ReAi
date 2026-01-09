@@ -60,13 +60,6 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, setIsOpen }) => {
               >
                 Home
               </p>
-              <Link
-                href="#how-it-works"
-                onClick={() => setIsOpen(false)}
-                className="text-foreground hover:text-muted transition text-2xl"
-              >
-                How it Works
-              </Link>
               <p
                 onClick={() => {
                   setIsOpen(false);
