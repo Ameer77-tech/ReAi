@@ -93,7 +93,9 @@ const Projects = () => {
 
   const addOutcome = (idx: number) => {
     const updated = [...projects];
-    updated[idx].outcomes?.push("");
+    if (!updated[idx]) return;
+    if (!updated[idx].outcomes) updated[idx].outcomes = [""];
+    else updated[idx].outcomes.push("");
     setProjectsState(updated);
   };
 
@@ -113,13 +115,19 @@ const Projects = () => {
 
   const addTool = (idx: number) => {
     const updated = [...projects];
-    updated[idx].tools_used?.push("");
+    if (!updated[idx]) return;
+    if (!updated[idx].tools_used) updated[idx].tools_used = [""];
+    else updated[idx].tools_used.push("");
     setProjectsState(updated);
   };
 
   const updateTool = (projIdx: number, toolIdx: number, value: string) => {
     const updated = [...projects];
-    updated[projIdx].tools_used[toolIdx] = value;
+    const proj = updated[projIdx];
+    if (!proj) return;
+    if (!Array.isArray(proj.tools_used)) proj.tools_used = [""];
+    while (proj.tools_used.length <= toolIdx) proj.tools_used.push("");
+    proj.tools_used[toolIdx] = value;
     setProjectsState(updated);
   };
 
@@ -237,7 +245,7 @@ const Projects = () => {
               {/* OUTCOMES — OPTIONAL */}
               <div className="space-y-3">
                 <Label>Outcomes (optional)</Label>
-                {proj.outcomes?.map((out, oIdx) => (
+                {(proj.outcomes || []).map((out, oIdx) => (
                   <Input
                     key={oIdx}
                     placeholder="Improved performance by 40%"
@@ -258,7 +266,7 @@ const Projects = () => {
               {/* TOOLS REQUIRED */}
               <div className="space-y-3">
                 <Label>Tools Used *</Label>
-                {proj.tools_used?.map((tool, tIdx) => (
+                {(proj.tools_used || []).map((tool, tIdx) => (
                   <Input
                     key={tIdx}
                     placeholder="React, Tailwind, MongoDB"

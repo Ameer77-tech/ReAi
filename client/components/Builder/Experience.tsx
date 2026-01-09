@@ -90,13 +90,17 @@ const Experience = () => {
 
   const addAchievement = (idx: number) => {
     const updated = [...experience];
-    updated[idx].achievements?.push("");
+    if (!updated[idx]) return;
+    if (!updated[idx].achievements) updated[idx].achievements = [""];
+    else updated[idx].achievements.push("");
     setExperienceState(updated);
   };
 
   const updateAchievement = (expIdx: number, achIdx: number, value: string) => {
     const updated = [...experience];
-    updated[expIdx].achievements[achIdx] = value;
+    if (!updated[expIdx]) return;
+    if (!updated[expIdx].achievements) updated[expIdx].achievements = [""];
+    updated[expIdx].achievements![achIdx] = value;
     setExperienceState(updated);
   };
 
@@ -236,7 +240,7 @@ const Experience = () => {
               <div className="space-y-3">
                 <Label>Achievements *</Label>
 
-                {exp.achievements.map((ach, aIdx) => (
+                {(exp.achievements || []).map((ach, aIdx) => (
                   <Input
                     key={aIdx}
                     value={ach}
