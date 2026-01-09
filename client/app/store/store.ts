@@ -38,82 +38,38 @@ const initialState = {
 };
 
 /* ========= TYPES ========= */
-
-interface Header {
-  full_name: string;
-  professional_title: string;
-}
-
-interface ContactInformation {
-  phone: string;
-  email: string;
-  location: string;
-  linkedin: string;
-  website: string;
-  github: string;
-}
-
-interface WorkExperience {
-  job_title: string;
-  employer: string;
-  location: string;
-  start_date: string;
-  end_date: string;
-  achievements: string[];
-}
-
-interface Education {
-  degree: string;
-  field_of_study: string;
-  institution: string;
-  location: string;
-  graduation_year: string;
-  honors: string[];
-}
-
-interface KeySkills {
-  marketing: string[];
-  analytics: string[];
-  tools: string[];
-  soft_skills: string[];
-}
-
-interface Project {
-  name: string;
-  description: string;
-  outcomes: string[];
-  tools_used: string[];
-  link: string;
-}
-
-interface Certification {
-  name: string;
-  organization: string;
-  date_obtained: string;
-}
+import type {
+  HeaderSchema,
+  ContactInformation,
+  WorkExperienceItem,
+  EducationItem,
+  KeySkills,
+  ProjectItem,
+  Certification,
+} from "@/types/preview";
 
 export interface ResumeStore {
   templateId: number;
   step: number;
 
-  header: Header;
+  header: HeaderSchema;
   contact_information: ContactInformation;
   professional_summary: string;
 
-  work_experience: WorkExperience[];
-  education: Education[];
+  work_experience: WorkExperienceItem[];
+  education: EducationItem[];
   key_skills: KeySkills;
-  projects: Project[];
+  projects: ProjectItem[];
   certifications: Certification[];
 
   // setters
-  setHeader: (data: Partial<Header>) => void;
+  setHeader: (data: Partial<HeaderSchema>) => void;
   setContact: (data: Partial<ContactInformation>) => void;
   setSummary: (value: string) => void;
 
-  setExperience: (value: WorkExperience[]) => void;
-  setEducation: (value: Education[]) => void;
-  setProjects: (value: Project[]) => void;
+  setExperience: (value: WorkExperienceItem[]) => void;
+  setEducation: (value: EducationItem[]) => void;
+  setProjects: (value: ProjectItem[]) => void;
   setCertifications: (value: Certification[]) => void;
 
   removeExperience: (index: number) => void;

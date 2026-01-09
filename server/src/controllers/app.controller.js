@@ -6,9 +6,12 @@ import puppeteer from "puppeteer";
 import AppError from "../errors/AppError.js";
 import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
+import fs from "fs";
+import path from "path";
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
+  
   if (!id || id.length === 0) {
     throw new AppError("id required", 401);
   }
@@ -16,15 +19,28 @@ export const generateResume = catchAsync(async (req, res) => {
   const userData = await UserDetails.findOne({ id: id }).select(
     "-_id -createdAt -updatedAt -__v -id"
   );
+
   if (!userData) {
     throw new AppError("User Expired", 404);
+  }
+  const resume = await Resume.findOne({ resumeId: id }).select(
+    "-_id -expiresAt -createdAt -updatedAt -__v"
+  );
+  if (resume) {
+    return res.status(200).json({ resume: resume, success: true });
   }
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
   });
   const cleaned = await generateAiResponse(ai, userData);
   const created = await Resume.create({ resumeId: id, ...cleaned });
-  return res.status(200).json({ resume: created });
+  const result = created.toObject();
+  delete result._id;
+  delete result.__v;
+  delete result.createdAt;
+  delete result.updatedAt;
+  delete result.expiresAt;
+  return res.status(200).json({ resume: result, success: true });
 });
 
 export const getUserDetails = catchAsync(async (req, res) => {
@@ -44,28 +60,65 @@ export const getUserDetails = catchAsync(async (req, res) => {
 
 export const generatePdf = catchAsync(async (req, res) => {
   const { html } = req.body;
+
   if (!html || html.length === 0) {
     throw new AppError("Invalid Request", 400);
   }
 
-  let browser;
+  const cssPath = path.join(process.cwd(), "src/lib/pdf.css");
+  const css = fs.readFileSync(cssPath, "utf-8");
 
-  try {
-    browser = await puppeteer.launch({ args: ["--no-sandbox"] });
-    const page = await browser.newPage();
+  const finalHtml = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+          ${css}
+          body { margin: 0; background: white; }
+        </style>
+      </head>
+      <body>
+        ${html}
+      </body>
+    </html>
+  `;
 
-    await page.setContent(html, { waitUntil: "networkidle0" });
-    const pdfBuffer = await page.pdf({ format: "A4" });
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
-    res.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": "attachment; filename=preview.pdf",
-    });
+  const page = await browser.newPage();
+  await page.setContent(finalHtml, { waitUntil: "networkidle0" });
+  await page.addStyleTag({
+    content: `
+      @page:first {
+        margin: 0mm 0mm 0mm 0mm;
+        margin-bottom : 20mm;
+      }
+      @page {
+        margin-top: 15mm;
+        margin-bottom : 15mm;
+      }
+    `,
+  });
 
-    res.status(200).send(pdfBuffer);
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
-  }
+  const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: {
+      top: "15mm",
+      bottom: "20mm",
+    },
+  });
+
+  await browser.close();
+
+  res.set({
+    "Content-Type": "application/pdf",
+    "Content-Disposition": "attachment; filename=preview.pdf",
+  });
+
+  res.status(200).send(pdfBuffer);
 });

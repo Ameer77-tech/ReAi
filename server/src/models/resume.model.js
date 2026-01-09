@@ -84,7 +84,7 @@ const certificationSchema = new mongoose.Schema(
 /* ---------------- MAIN SCHEMA ---------------- */
 const ResumeSchema = new mongoose.Schema(
   {
-    resumeId : { type: String, required: true, unique: true },
+    resumeId: { type: String, required: true, unique: true },
 
     header: { type: headerSchema, required: true },
     contact_information: { type: contactSchema, required: true },

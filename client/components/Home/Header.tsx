@@ -6,8 +6,11 @@ import { Button } from "../ui/button";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import SideBar from "./SideBar";
+import { useRouter } from "next/navigation";
+import nProgress from "nprogress";
 
 const Header = () => {
+  const router = useRouter();
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -49,7 +52,13 @@ const Header = () => {
           </p>
         </div>
         <div className="flex gap-2 items-center">
-          <Button className="flex items-center gap-2">
+          <Button
+            onClick={() => {
+              nProgress.start();
+              router.push("/resume/builder");
+            }}
+            className="flex items-center gap-2"
+          >
             Try It <ArrowRightCircleIcon className="w-5 h-5" />
           </Button>
           <div className="lg:hidden md:hidden">

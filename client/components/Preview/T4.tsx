@@ -1,15 +1,14 @@
 import { manrope } from "@/fonts/Fonts";
 import { cn } from "@/lib/utils";
-import { TProps } from "@/types/preview";
-import React from "react";
-import Header from "./components/t1/Header";
-import About from "./components/t1/About";
-import Education from "./components/t1/Education";
-import WorkExp from "./components/t1/WorkExp";
-import Skills from "./components/t1/Skills";
-import Projects from "./components/t1/Projects";
+import type { TProps } from "@/types/preview";
+import Header from "./components/t4/Header";
+import About from "./components/t4/About";
+import Skills from "./components/t4/Skills";
+import WorkExp from "./components/t4/WorkExp";
+import Projects from "./components/t4/Projects";
+import Education from "./components/t4/Education";
 
-const T1 = ({ data }: TProps) => {
+const T4 = ({ data }: TProps) => {
   return (
     <>
       <div
@@ -32,4 +31,4 @@ const T1 = ({ data }: TProps) => {
   );
 };
 
-export default T1;
+export default T4;

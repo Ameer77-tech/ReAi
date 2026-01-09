@@ -29,9 +29,10 @@ const Projects = () => {
   const router = useRouter();
 
   const stored = useResumeStore((s) => s.projects);
+
   const setProject = useResumeStore((s) => s.setProjects);
   const removeProject = useResumeStore((s) => s.removeProject);
-
+  const reset = useResumeStore((s) => s.reset);
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<Record<number, ErrorObj>>({});
 
@@ -56,9 +57,9 @@ const Projects = () => {
       const err: ErrorObj = {};
 
       if (!proj.name.trim()) err.name = "Required";
-      if (!proj.description.trim()) err.description = "Required";
+      if (!proj.description?.trim()) err.description = "Required";
 
-      const hasTool = proj.tools_used.some((t) => t.trim() !== "");
+      const hasTool = (proj.tools_used ?? []).some((t) => t.trim() !== "");
       if (!hasTool) err.tools_used = "At least 1 required";
 
       if (Object.keys(err).length) newErrors[idx] = err;
@@ -103,7 +104,11 @@ const Projects = () => {
     value: string
   ) => {
     const updated = [...projects];
-    updated[projIdx].outcomes[outcomeIdx] = value;
+    const proj = updated[projIdx];
+    if (!proj) return;
+    if (!Array.isArray(proj.outcomes)) proj.outcomes = [""];
+    while (proj.outcomes.length <= outcomeIdx) proj.outcomes.push("");
+    proj.outcomes[outcomeIdx] = value;
     setProjectsState(updated);
   };
 
@@ -126,11 +131,13 @@ const Projects = () => {
     setProject(projects);
 
     const state = useResumeStore.getState();
+
     try {
       const res = await SubmitData(state);
       if (res.ok) {
+        reset();
         nProgress.start();
-        router.replace(`/preview/${res.id}`);
+        router.replace(`/preview/${res.id}?template=${++state.templateId}`);
       } else {
         alert(res.reply);
         setPending(false);
@@ -231,7 +238,7 @@ const Projects = () => {
               {/* OUTCOMES — OPTIONAL */}
               <div className="space-y-3">
                 <Label>Outcomes (optional)</Label>
-                {proj.outcomes.map((out, oIdx) => (
+                {proj.outcomes?.map((out, oIdx) => (
                   <Input
                     key={oIdx}
                     placeholder="Improved performance by 40%"
@@ -252,7 +259,7 @@ const Projects = () => {
               {/* TOOLS REQUIRED */}
               <div className="space-y-3">
                 <Label>Tools Used *</Label>
-                {proj.tools_used.map((tool, tIdx) => (
+                {proj.tools_used?.map((tool, tIdx) => (
                   <Input
                     key={tIdx}
                     placeholder="React, Tailwind, MongoDB"

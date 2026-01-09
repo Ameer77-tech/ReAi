@@ -14,7 +14,7 @@ import Projects from "@/components/Builder/Projects";
 import { motion, AnimatePresence, Variants } from "motion/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -58,7 +58,8 @@ const Page = () => {
   const router = useRouter();
   const step = useResumeStore((state) => state.step);
   const setStep = useResumeStore((state) => state.setStep);
-  const [showDialog, setShowDialog] = useState<boolean>(false);
+const [showDialog, setShowDialog] = useState<boolean>(false);
+
 
   return (
     <>
@@ -90,7 +91,7 @@ const Page = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <div className="absolute  top-3 px-5 flex w-full justify-between items-center">
+      <div className="absolute top-3 px-5 flex w-full justify-between items-center">
         <Button
           onClick={() => {
             nProgress.start();
@@ -160,7 +161,7 @@ const Page = () => {
                   key="template"
                   className="h-full"
                 >
-                  <Template step={step} setStep={setStep} />
+                  <Template />
                 </motion.div>
               )}
 

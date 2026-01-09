@@ -1,12 +1,12 @@
 import { z } from "zod";
 
-const OptionalUrl = z
+export const OptionalUrl = z
   .string()
   .transform((v) => (v.trim() === "" ? undefined : v))
   .optional()
   .refine((v) => !v || /^https?:\/\//.test(v), "Invalid URL");
 
-const CleanStringArray = z
+export const CleanStringArray = z
   .array(z.string())
   .transform((arr) => arr.map((v) => v.trim()).filter(Boolean));
 
