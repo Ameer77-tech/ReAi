@@ -5,10 +5,6 @@ import T3 from "@/components/Preview/T3";
 import T4 from "@/components/Preview/T4";
 import T5 from "@/components/Preview/T5";
 import ChangeTemplate from "@/components/Preview/components/Toptions";
-import { HomeIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import nProgress from "nprogress";
-import { redirect } from "next/navigation";
 import HomeRedirect from "@/components/HomeRedirect";
 
 type PageProps = {

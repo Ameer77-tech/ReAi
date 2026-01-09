@@ -18,8 +18,6 @@ const Summary = () => {
 
   const storedSummary = useResumeStore((s) => s.professional_summary);
   const setSummary = useResumeStore((s) => s.setSummary);
-
-  // local edit buffer (hydrate once)
   const [summary, setSummaryState] = useState(() => storedSummary || "");
 
   return (

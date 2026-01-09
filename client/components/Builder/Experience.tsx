@@ -54,11 +54,11 @@ const Experience = () => {
 
       if (!exp.job_title.trim()) err.job_title = "Required";
       if (!exp.employer.trim()) err.employer = "Required";
-      if (!exp.location.trim()) err.location = "Required";
-      if (!exp.start_date.trim()) err.start_date = "Required";
-      if (!exp.end_date.trim()) err.end_date = "Required";
+      if (!exp.location?.trim()) err.location = "Required";
+      if (!exp.start_date?.trim()) err.start_date = "Required";
+      if (!exp.end_date?.trim()) err.end_date = "Required";
 
-      const hasAchievement = exp.achievements.some((a) => a.trim() !== "");
+      const hasAchievement = exp.achievements?.some((a) => a.trim() !== "");
       if (!hasAchievement) err.achievements = "Add at least one achievement";
 
       if (Object.keys(err).length) newErrors[idx] = err;
@@ -90,7 +90,7 @@ const Experience = () => {
 
   const addAchievement = (idx: number) => {
     const updated = [...experience];
-    updated[idx].achievements.push("");
+    updated[idx].achievements?.push("");
     setExperienceState(updated);
   };
 

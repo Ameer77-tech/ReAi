@@ -14,19 +14,19 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const Template = () => {
   const step = useResumeStore((s) => s.step);
-    const setStep = useResumeStore((s) => s.setStep);
+  const setStep = useResumeStore((s) => s.setStep);
   const templates = [t2, t3, t4, t5, t1];
   const templatedId = useResumeStore((state) => state.templateId);
   const setTemplatedId = useResumeStore((state) => state.setTemplate);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      {/* TOP */}
+  
       <h1 className="px-10 lg:text-3xl text-2xl my-10">
         Select Your Desired Template
       </h1>
 
-      {/* MIDDLE */}
+
       <div className="flex-1 overflow-y-auto">
         <div className="p-10 grid lg:grid-cols-2 gap-10 place-items-center">
           {templates.map((t, idx) => (
@@ -59,7 +59,7 @@ const Template = () => {
         </div>
       </div>
 
-      {/* BOTTOM */}
+  
       <div className="px-10 py-6 flex justify-end border-t">
         <Button
           onClick={() => {

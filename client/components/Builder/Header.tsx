@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useResumeStore } from "@/app/store/store";
+import { ContactInformation, HeaderSchema } from "@/types/preview";
 
 const emailRegex = /\S+@\S+\.\S+/;
 const phoneRegex = /^[0-9+\-\s]{8,15}$/;
@@ -20,12 +21,12 @@ const Header = () => {
   const setHeader = useResumeStore((s) => s.setHeader);
   const setContactInformation = useResumeStore((s) => s.setContact);
 
-  const [headerState, setHeaderState] = useState({
+  const [headerState, setHeaderState] = useState<HeaderSchema>({
     full_name: storedHeader?.full_name || "",
     professional_title: storedHeader?.professional_title || "",
   });
 
-  const [contactState, setContactState] = useState({
+  const [contactState, setContactState] = useState<ContactInformation>({
     phone: storedContact?.phone || "",
     email: storedContact?.email || "",
     location: storedContact?.location || "",
@@ -44,28 +45,19 @@ const Header = () => {
     location: "",
   });
 
-  // interface errors {
-  //   full_name: "";
-  //   email: "";
-  //   phone: "";
-  //   linkedin: "";
-  //   website: "";
-  //   github: "";
-  // }
-
   const validate = () => {
     const newErrors: any = {};
 
     if (!headerState.full_name.trim()) {
       newErrors.full_name = "Full name is required.";
     }
-    if (!contactState.phone.trim()) {
+    if (!contactState.phone?.trim()) {
       newErrors.phone = "Phone Number required.";
     }
-    if (!contactState.email.trim()) {
+    if (!contactState.email?.trim()) {
       newErrors.email = "Email is required.";
     }
-    if (!contactState.location.trim()) {
+    if (!contactState.location?.trim()) {
       newErrors.location = "Location is required.";
     }
     if (contactState.email && !emailRegex.test(contactState.email)) {
