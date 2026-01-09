@@ -51,9 +51,9 @@ const Education = () => {
       const e: Partial<ErrorObj> = {};
 
       if (!edu.degree.trim()) e.degree = "Required";
-      if (!edu.field_of_study.trim()) e.field_of_study = "Required";
+      if (!edu.field_of_study?.trim()) e.field_of_study = "Required";
       if (!edu.institution.trim()) e.institution = "Required";
-      if (!edu.graduation_year.trim()) e.graduation_year = "Required";
+      if (!edu.graduation_year?.trim()) e.graduation_year = "Required";
 
       if (Object.keys(e).length > 0) newErrors[idx] = e;
     });

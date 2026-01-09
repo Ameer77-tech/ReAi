@@ -1,8 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Download } from "lucide-react";
-import { useResumeStore } from "@/app/store/store";
 import download from "@/lib/Download";
 import T1 from "./T1";
 import { TProps } from "@/types/preview";

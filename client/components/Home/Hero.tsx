@@ -5,65 +5,19 @@ import { Card, CardDescription, CardFooter, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import { quicksand } from "@/fonts/Fonts";
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import GradientShine from "./GradientShine";
 import { useRouter } from "next/navigation";
 import NProgress from "nprogress";
 import { cn } from "@/lib/utils";
+import {
+  bottomLetter,
+  childVariants,
+  heroParentVariants,
+  parentVariants,
+  topLetter,
+} from "@/variants/HeroVariants";
 
-const parentVariants: Variants = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.25,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const childVariants: Variants = {
-  initial: {
-    opacity: 0,
-    y: 16,
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const heroParentVariants: Variants = {
-  initial: {},
-  hover: {
-    transition: {
-      staggerChildren: 0.006,
-    },
-  },
-};
-const topLetter: Variants = {
-  initial: { y: 0 },
-  hover: {
-    y: "-110%",
-    transition: { duration: 0.25, ease: "easeOut" },
-  },
-};
-
-const bottomLetter: Variants = {
-  initial: { y: "100%" },
-  hover: {
-    y: "0%",
-    transition: { duration: 0.25, ease: "easeOut" },
-  },
-};
-
-const MotionButton = motion(Button);
 
 const Hero = () => {
   const router = useRouter();

@@ -11,10 +11,10 @@ import Experience from "@/components/Builder/Experience";
 import Skills from "@/components/Builder/Skills";
 import Projects from "@/components/Builder/Projects";
 
-import { motion, AnimatePresence, Variants } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -27,39 +27,12 @@ import {
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
-
-/* -------------------------------------------------- */
-/* Animation variants */
-/* -------------------------------------------------- */
-const stepVariants: Variants = {
-  initial: {
-    y: 40,
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.2,
-      ease: "easeOut",
-    },
-  },
-  exit: {
-    y: -40,
-    opacity: 0,
-    transition: {
-      duration: 0.2,
-      ease: "easeIn",
-    },
-  },
-};
+import { stepVariants } from "@/variants/StepVariants";
 
 const Page = () => {
   const router = useRouter();
   const step = useResumeStore((state) => state.step);
-  const setStep = useResumeStore((state) => state.setStep);
-const [showDialog, setShowDialog] = useState<boolean>(false);
-
+  const [showDialog, setShowDialog] = useState<boolean>(false);
 
   return (
     <>
@@ -125,7 +98,6 @@ const [showDialog, setShowDialog] = useState<boolean>(false);
           overflow-hidden
         "
         >
-          {/* LEFT / PROGRESS */}
           <div className="lg:w-1/4 w-full lg:h-auto border-b lg:border-b-0 lg:border-r relative">
             <ProgressBar />
             <div className="lg:absolute opacity-0 animate-fade-in hidden lg:block top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
@@ -149,7 +121,6 @@ const [showDialog, setShowDialog] = useState<boolean>(false);
             </Button>
           </div>
 
-          {/* RIGHT / CONTENT */}
           <div className="flex-1 h-full relative overflow-hidden">
             <AnimatePresence mode="wait">
               {step === 1 && (

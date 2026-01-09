@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useResumeStore } from "@/app/store/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   ArrowLeftIcon,
-  ArrowRightIcon,
   PlusIcon,
   RocketLaunchIcon,
   TrashIcon,
@@ -94,7 +93,7 @@ const Projects = () => {
 
   const addOutcome = (idx: number) => {
     const updated = [...projects];
-    updated[idx].outcomes.push("");
+    updated[idx].outcomes?.push("");
     setProjectsState(updated);
   };
 
@@ -114,7 +113,7 @@ const Projects = () => {
 
   const addTool = (idx: number) => {
     const updated = [...projects];
-    updated[idx].tools_used.push("");
+    updated[idx].tools_used?.push("");
     setProjectsState(updated);
   };
 

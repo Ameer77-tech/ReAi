@@ -36,7 +36,7 @@ const Skills = () => {
 
   const addSkill = (category: CategoryKey) => {
     const updated = { ...skills };
-    updated[category].push("");
+    updated[category]?.push("");
     setSkillsState(updated);
   };
 
@@ -48,8 +48,8 @@ const Skills = () => {
 
   const removeSkill = (category: CategoryKey, idx: number) => {
     const updated = { ...skills };
-    updated[category].splice(idx, 1);
-    if (updated[category].length === 0) updated[category].push("");
+    updated[category]?.splice(idx, 1);
+    if (updated[category]?.length === 0) updated[category].push("");
     setSkillsState(updated);
   };
 
@@ -62,7 +62,7 @@ const Skills = () => {
 
   const validate = () => {
     const hasOne = Object.values(skills).some((arr) =>
-      arr.some((v) => v.trim() !== "")
+      arr.some((v: string) => v.trim() !== "")
     );
 
     if (!hasOne) {
@@ -94,7 +94,7 @@ const Skills = () => {
             >
               <Label className="text-base font-medium">{cat.label}</Label>
 
-              {skills[cat.key].map((item, idx) => (
+              {skills[cat.key]?.map((item, idx) => (
                 <div key={idx} className="flex gap-2">
                   <Input
                     value={item}
