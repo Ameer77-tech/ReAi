@@ -1,4 +1,7 @@
 {
+  "build": {
+    "command" : "npm install && npm run build"
+  },
   "$schema": "./node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "my-app",
@@ -9,5 +12,8 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
   }
 }
