@@ -68,15 +68,18 @@ export const generatePdf = catchAsync(async (req, res) => {
   console.log("Root files:", fs.readdirSync(process.cwd()));
 
   if (fs.existsSync(path.join(process.cwd(), "src"))) {
-    console.log("src/:", fs.readdirSync(path.join(process.cwd(), "src")));
+    console.error("src/:", fs.readdirSync(path.join(process.cwd(), "src")));
   }
 
   if (fs.existsSync(path.join(process.cwd(), "lib"))) {
-    console.log("lib/:", fs.readdirSync(path.join(process.cwd(), "lib")));
+    console.error("lib/:", fs.readdirSync(path.join(process.cwd(), "lib")));
   }
 
   if (fs.existsSync(path.join(process.cwd(), "public"))) {
-    console.log("public/:", fs.readdirSync(path.join(process.cwd(), "public")));
+    console.error(
+      "public/:",
+      fs.readdirSync(path.join(process.cwd(), "public"))
+    );
   }
   const cssPath = path.join(process.cwd(), "src/lib/pdf.css");
   const css = fs.readFileSync(cssPath, "utf-8");
