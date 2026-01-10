@@ -9,13 +9,14 @@ import appRouter from "./routes/app.route.js";
 import healthRouter from "./routes/health.route.js";
 
 import errorHandler from "./errors/errorHandler.js";
+import AppError from "./errors/AppError.js";
 
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, "https://localhost:3000"],
   })
 );
 
