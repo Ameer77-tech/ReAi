@@ -138,3 +138,31 @@ export const generatePdf = catchAsync(async (req, res) => {
 
   res.status(200).send(pdfBuffer);
 });
+
+export const debugFs = (req, res) => {
+  const base = process.cwd();
+
+  const safeRead = (p) => {
+    try {
+      return fs.readdirSync(p);
+    } catch (e) {
+      return `ERROR: ${e.message}`;
+    }
+  };
+
+  const result = {
+    cwd: base,
+    root: safeRead(base),
+    src: fs.existsSync(path.join(base, "src"))
+      ? safeRead(path.join(base, "src"))
+      : "NOT FOUND",
+    lib: fs.existsSync(path.join(base, "lib"))
+      ? safeRead(path.join(base, "lib"))
+      : "NOT FOUND",
+    public: fs.existsSync(path.join(base, "public"))
+      ? safeRead(path.join(base, "public"))
+      : "NOT FOUND",
+  };
+
+  res.status(200).json(result);
+};
