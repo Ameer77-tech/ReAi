@@ -9,6 +9,8 @@ import generateAiResponse from "../lib/generate.js";
 import fs from "fs";
 import path from "path";
 import { pdfCss } from "../lib/pdf.js";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
@@ -84,31 +86,25 @@ export const generatePdf = catchAsync(async (req, res) => {
   `;
 
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
   });
 
   const page = await browser.newPage();
   await page.setContent(finalHtml, { waitUntil: "networkidle0" });
   await page.addStyleTag({
     content: `
-      @page:first {
-        margin: 0mm 0mm 0mm 0mm;
-        margin-bottom : 20mm;
-      }
-      @page {
-        margin-top: 15mm;
-        margin-bottom : 15mm;
-      }
+      @page:first { margin: 0mm; margin-bottom: 20mm; }
+      @page { margin-top: 15mm; margin-bottom: 15mm; }
     `,
   });
 
   const pdfBuffer = await page.pdf({
     format: "A4",
     printBackground: true,
-    margin: {
-      top: "15mm",
-      bottom: "20mm",
-    },
+    margin: { top: "15mm", bottom: "20mm" },
   });
 
   await browser.close();
@@ -116,6 +112,7 @@ export const generatePdf = catchAsync(async (req, res) => {
   res.set({
     "Content-Type": "application/pdf",
     "Content-Disposition": "attachment; filename=preview.pdf",
+    "Content-Length": pdfBuffer.length,
   });
 
   res.status(200).send(pdfBuffer);
