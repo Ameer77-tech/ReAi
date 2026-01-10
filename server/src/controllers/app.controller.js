@@ -5,11 +5,7 @@ import { Resume } from "../models/resume.model.js";
 import AppError from "../errors/AppError.js";
 import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
-import fs from "fs";
-import path from "path";
-import { pdfCss } from "../lib/pdf.js";
-import puppeteer from "puppeteer-core";
-import chromium from "@sparticuz/chromium";
+
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
@@ -59,88 +55,3 @@ export const getUserDetails = catchAsync(async (req, res) => {
       .status(200)
       .json({ reply: "Created Record", success: true, id: id });
 });
-
-export const generatePdf = catchAsync(async (req, res) => {
-  const { html } = req.body;
-
-  if (!html || html.length === 0) {
-    throw new AppError("Invalid Request", 400);
-  }
-
-  const finalHtml = `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <style>
-          ${pdfCss}
-          body { margin: 0; background: white; }
-        </style>
-      </head>
-      <body>
-        ${html}
-      </body>
-    </html>
-  `;
-
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
-  });
-
-  const page = await browser.newPage();
-  await page.setContent(finalHtml, { waitUntil: "networkidle0" });
-  await page.addStyleTag({
-    content: `
-      @page:first { margin: 0mm; margin-bottom: 20mm; }
-      @page { margin-top: 15mm; margin-bottom: 15mm; }
-    `,
-  });
-
-  const pdfBuffer = await page.pdf({
-    format: "A4",
-    printBackground: true,
-    margin: { top: "15mm", bottom: "20mm" },
-  });
-
-  await browser.close();
-
-  res.set({
-    "Content-Type": "application/pdf",
-    "Content-Disposition": "attachment; filename=preview.pdf",
-    "Content-Length": pdfBuffer.length,
-  });
-
-  res.status(200).send(pdfBuffer);
-});
-
-export const debugFs = (req, res) => {
-  const base = process.cwd();
-
-  const safeRead = (p) => {
-    try {
-      return fs.readdirSync(p);
-    } catch (e) {
-      return `ERROR: ${e.message}`;
-    }
-  };
-
-  const result = {
-    cwd: base,
-    root: safeRead(base),
-    src: fs.existsSync(path.join(base, "src"))
-      ? safeRead(path.join(base, "src"))
-      : "NOT FOUND",
-    lib: fs.existsSync(path.join(base, "lib"))
-      ? safeRead(path.join(base, "lib"))
-      : "NOT FOUND",
-    public: fs.existsSync(path.join(base, "public"))
-      ? safeRead(path.join(base, "public"))
-      : "NOT FOUND",
-  };
-
-  res.status(200).json(result);
-};
