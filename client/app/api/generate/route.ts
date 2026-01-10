@@ -13,7 +13,9 @@ export async function POST(req : Request){
           body: JSON.stringify({ html: html }),
         }
     )
+    
     const pdfBuffer = await response.arrayBuffer()
+    
     return new NextResponse(pdfBuffer,{
         headers : {
             "content-type" : "application/pdf",

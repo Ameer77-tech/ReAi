@@ -27,6 +27,6 @@ export default (err, req, res, next) => {
 
   return res.status(500).json({
     status: "error",
-    reply: "something went wrong",
+    reply: `something went wrong ${err}`,
   });
 };
