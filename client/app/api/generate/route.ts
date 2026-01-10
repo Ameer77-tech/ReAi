@@ -4,7 +4,7 @@ export async function POST(req : Request){
     try{
     const json = await req.json()
     const html = json.html
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/download`, 
+    const response = await fetch(`${process.env.PDF_SERVER}/api/generate-pdf`, 
        {
           method: "POST",
           headers: {
