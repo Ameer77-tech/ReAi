@@ -4,7 +4,6 @@ import { pdfCss } from "./pdf.js";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
-import express from "express";
 
 const app = express();
 app.use(express.json({ limit: "10mb" }));
