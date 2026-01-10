@@ -36,7 +36,7 @@ app.post("/api/generate-pdf", async (req, res) => {
 
     const browser = await puppeteer.launch({
       executablePath:
-        "/opt/render/.cache/puppeteer/chrome-headless-shell/linux-143.0.7499.169/chrome-headless-shell-linux64/chrome-headless-shell",
+        "/opt/render/project/.puppeteer/chrome-headless-shell/linux-143.0.7499.169/chrome-headless-shell-linux64/chrome-headless-shell",
       headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
