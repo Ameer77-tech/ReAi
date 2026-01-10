@@ -64,5 +64,15 @@ app.post("/api/generate-pdf", async (req, res) => {
   }
 });
 
+app.get("/debug/fs", (req, res) => {
+  res.json({
+    pwd: process.cwd(),
+    rootFiles: fs.readdirSync(process.cwd()),
+    puppeteerCache: fs.existsSync("/opt/render/.cache/puppeteer")
+      ? fs.readdirSync("/opt/render/.cache/puppeteer")
+      : "not found",
+  });
+});
+
 const PORT = 9000;
 app.listen(PORT, () => console.log(`PDF service running on port ${PORT}`));
