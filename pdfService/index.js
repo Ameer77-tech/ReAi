@@ -14,6 +14,7 @@ app.post("/api/generate-pdf", async (req, res) => {
     if (!html || html.length === 0) {
       return res.status(400).json({ status: "error", reply: "Invalid HTML" });
     }
+
     const finalHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -30,22 +31,15 @@ app.post("/api/generate-pdf", async (req, res) => {
         </body>
       </html>
     `;
+
     const browser = await puppeteer.launch({
-      executablePath:
-        "/opt/render/.cache/puppeteer/chrome/linux-143.0.7499.169/chrome-linux64/chrome",
+      headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true,
     });
 
     const page = await browser.newPage();
     await page.setContent(finalHtml, { waitUntil: "networkidle0" });
 
-    await page.addStyleTag({
-      content: `
-        @page:first { margin: 0mm; margin-bottom: 20mm; }
-        @page { margin-top: 15mm; margin-bottom: 15mm; }
-      `,
-    });
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
@@ -53,6 +47,7 @@ app.post("/api/generate-pdf", async (req, res) => {
     });
 
     await browser.close();
+
     res.set({
       "Content-Type": "application/pdf",
       "Content-Disposition": "attachment; filename=preview.pdf",
@@ -62,14 +57,10 @@ app.post("/api/generate-pdf", async (req, res) => {
 
     res.status(200).send(pdfBuffer);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ err, message: "Something Went Wrong" });
   }
 });
 
-app.get("/health", (req, res) => {
-  res.send("running");
-});
-
-const PORT = 9000;
+const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => console.log(`PDF service running on port ${PORT}`));
