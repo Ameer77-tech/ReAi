@@ -31,7 +31,10 @@ app.post("/api/generate-pdf", async (req, res) => {
       </html>
     `;
     const browser = await puppeteer.launch({
+      executablePath:
+        "/opt/render/.cache/puppeteer/chrome/linux-143.0.7499.169/chrome-linux64/chrome",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: true,
     });
 
     const page = await browser.newPage();
