@@ -8,6 +8,7 @@ import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
 import fs from "fs";
 import path from "path";
+import { pdfCss } from "../lib/pdf.js";
 
 export const generateResume = catchAsync(async (req, res) => {
   const id = req.params.id;
@@ -64,25 +65,6 @@ export const generatePdf = catchAsync(async (req, res) => {
   if (!html || html.length === 0) {
     throw new AppError("Invalid Request", 400);
   }
-  console.log("CWD:", process.cwd());
-  console.log("Root files:", fs.readdirSync(process.cwd()));
-
-  if (fs.existsSync(path.join(process.cwd(), "src"))) {
-    console.error("src/:", fs.readdirSync(path.join(process.cwd(), "src")));
-  }
-
-  if (fs.existsSync(path.join(process.cwd(), "lib"))) {
-    console.error("lib/:", fs.readdirSync(path.join(process.cwd(), "lib")));
-  }
-
-  if (fs.existsSync(path.join(process.cwd(), "public"))) {
-    console.error(
-      "public/:",
-      fs.readdirSync(path.join(process.cwd(), "public"))
-    );
-  }
-  const cssPath = path.join(process.cwd(), "src/lib/pdf.css");
-  const css = fs.readFileSync(cssPath, "utf-8");
 
   const finalHtml = `
     <!DOCTYPE html>
@@ -91,7 +73,7 @@ export const generatePdf = catchAsync(async (req, res) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
-          ${css}
+          ${pdfCss}
           body { margin: 0; background: white; }
         </style>
       </head>
