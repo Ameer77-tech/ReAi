@@ -2,7 +2,6 @@ import { GoogleGenAI } from "@google/genai";
 import { UserDetails } from "../models/user.model.js";
 import crypto from "crypto";
 import { Resume } from "../models/resume.model.js";
-import puppeteer from "puppeteer";
 import AppError from "../errors/AppError.js";
 import catchAsync from "../lib/catchAsync.js";
 import generateAiResponse from "../lib/generate.js";
