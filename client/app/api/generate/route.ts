@@ -13,7 +13,11 @@ export async function POST(req : Request){
           body: JSON.stringify({ html: html }),
         }
     )
+    console.log(response);
     
+    if(response.status === 500){
+        return NextResponse.json({ reply : "Server Error", success : false }, { status : 500 })
+    }
     const pdfBuffer = await response.arrayBuffer()
     
     return new NextResponse(pdfBuffer,{
