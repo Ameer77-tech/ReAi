@@ -1,5 +1,5 @@
 import express from "express";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 import { pdfCss } from "./pdf.js";
 import cors from "cors";
 
@@ -33,6 +33,8 @@ app.post("/api/generate-pdf", async (req, res) => {
     `;
 
     const browser = await puppeteer.launch({
+      executablePath:
+        "/opt/render/.cache/puppeteer/chrome-headless-shell/linux-143.0.7499.169/chrome-headless-shell-linux64/chrome-headless-shell",
       headless: "shell",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
@@ -62,5 +64,5 @@ app.post("/api/generate-pdf", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 9000;
+const PORT = 9000;
 app.listen(PORT, () => console.log(`PDF service running on port ${PORT}`));
