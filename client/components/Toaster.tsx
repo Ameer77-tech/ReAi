@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { toast, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Slide, ToastContainer } from "react-toastify";
 
 const Toaster = () => {
   useEffect(() => {
@@ -18,7 +17,9 @@ const Toaster = () => {
     });
   }, []);
 
-  return null;
+  return (
+   null
+  );
 };
 
 export default Toaster;

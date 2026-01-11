@@ -150,10 +150,9 @@ export const useResumeStore = create<ResumeStore>()(
       setTemplate: (id) => set({ templateId: id }),
       setStep: (s) => set({ step: s }),
 
-      /* FULL RESET */
       reset: () => {
-        set(initialState);                  // reset in-memory
-        useResumeStore.persist.clearStorage(); // reset localStorage
+        set(initialState);           
+        useResumeStore.persist.clearStorage(); 
       },
     }),
     {

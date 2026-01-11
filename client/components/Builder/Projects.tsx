@@ -32,7 +32,6 @@ const Projects = () => {
 
   const setProject = useResumeStore((s) => s.setProjects);
   const removeProject = useResumeStore((s) => s.removeProject);
-  const reset = useResumeStore((s) => s.reset);
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<Record<number, ErrorObj>>({});
 
@@ -143,7 +142,6 @@ const Projects = () => {
     try {
       const res = await SubmitData(state);
       if (res.ok) {
-        reset();
         toast.success("Details Submitted", {
           position: "top-center",
           autoClose: 5000,

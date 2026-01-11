@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${mulish.className} ${manrope.className} font-extrabold antialiased bg-`}
+        className={`${mulish.className} ${manrope.className} font-extrabold antialiased `}
       >
         <ToastContainer
           position="top-center"

@@ -1,4 +1,5 @@
 import VantaDots from "@/components/bg";
+import Toaster from "@/components/Toaster";
 import React from "react";
 import { Slide, ToastContainer } from "react-toastify";
 
@@ -23,6 +24,7 @@ const layout = ({ children }: props) => {
         theme="dark"
         transition={Slide}
       />
+      <Toaster />
     </VantaDots>
   );
 };
