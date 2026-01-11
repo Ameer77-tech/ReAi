@@ -1,9 +1,9 @@
 import rateLimit from "express-rate-limit";
 
 const resumeLimiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000, // 24 hours
-  max: 1000, // 2 requests per day
-  message: { error: "Daily limit reached. Try again tomorrow." },
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 requests per hour
+  message: { error: "Hourly limit reached. Try again later." },
   standardHeaders: true,
   legacyHeaders: false,
 });
