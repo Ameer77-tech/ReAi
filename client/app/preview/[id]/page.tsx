@@ -6,6 +6,7 @@ import T4 from "@/components/Preview/T4";
 import T5 from "@/components/Preview/T5";
 import ChangeTemplate from "@/components/Preview/components/Toptions";
 import HomeRedirect from "@/components/HomeRedirect";
+import Toaster from "@/components/Toaster";
 
 type PageProps = {
   params: {
@@ -72,6 +73,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
         )}
         <ChangeTemplate t={template} />
         <DownloadBtn data={res.resume} />
+        <Toaster />
       </div>
     </>
   ) : (

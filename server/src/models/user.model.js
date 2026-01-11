@@ -99,7 +99,6 @@ const userDetailsSchema = new mongoose.Schema(
     projects: [projectSchema],
     certifications: [certificationSchema],
 
-    /* TTL — auto delete after 5 minutes */
     expiresAt: {
       type: Date,
       default: () => new Date(Date.now() + 5 * 60 * 1000),

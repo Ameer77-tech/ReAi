@@ -14,6 +14,7 @@ import {
 import SubmitData from "@/lib/Submit";
 import { useRouter } from "next/navigation";
 import nProgress from "nprogress";
+import { Slide, toast } from "react-toastify";
 
 type ErrorObj = {
   name?: string;
@@ -143,10 +144,30 @@ const Projects = () => {
       const res = await SubmitData(state);
       if (res.ok) {
         reset();
+        toast.success("Details Submitted", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Slide,
+        });
         nProgress.start();
         router.replace(`/preview/${res.id}?template=${++state.templateId}`);
       } else {
-        alert(res.reply);
+        toast.error(res.reply ?? "Error", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Slide,
+        });
         setPending(false);
       }
     } catch (err) {
