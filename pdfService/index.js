@@ -3,7 +3,6 @@ import puppeteer from "puppeteer-core";
 import { pdfCss } from "./pdf.js";
 import cors from "cors";
 import fs from "fs";
-import path from "path";
 
 const app = express();
 app.use(express.json({ limit: "10mb" }));
