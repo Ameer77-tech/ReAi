@@ -1,21 +1,44 @@
 import AppError from "../errors/AppError.js";
 import { ResumeSchema } from "../validation/aiRes.validate.js";
 
-function parseAIJSON(rawString) {
-  let cleaned = rawString
-    // Remove markdown code fences
-    .replace(/^```(json)?\s*/, "")
-    .replace(/```$/, "")
-    .trim()
-    // Replace smart double quotes with normal quotes
-    .replace(/[“”]/g, '"')
-    // Replace smart single quotes with normal single quotes
-    .replace(/[‘’]/g, "'")
-    // Remove trailing commas in objects and arrays
-    .replace(/,\s*}/g, "}")
-    .replace(/,\s*]/g, "]");
+export function parseAIJSON(rawString) {
+  if (typeof rawString !== "string") return rawString;
 
-  return JSON.parse(cleaned);
+  let cleaned = rawString.trim();
+
+  // Remove markdown code fences if present
+  cleaned = cleaned
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+
+  // 1. Try direct JSON parsing
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    // 2. Retry with sanitized quotes and trailing commas removed
+    const sanitized = cleaned
+      .replace(/[“”]/g, '"')
+      .replace(/[‘’]/g, "'")
+      .replace(/,\s*([}\]])/g, "$1");
+
+    try {
+      return JSON.parse(sanitized);
+    } catch {
+      // 3. Extract embedded JSON object or array if surrounded by text
+      const match = sanitized.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+      if (match) {
+        try {
+          return JSON.parse(match[0]);
+        } catch {
+          // Ignore extraction error and fall through
+        }
+      }
+    }
+  }
+
+  // 4. Return raw string if it's plain text (not JSON)
+  return rawString;
 }
 
 const generateAiResponse = async (ai, userData) => {
@@ -128,8 +151,11 @@ Return ONLY the final JSON object.
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemma-3-4b-it",
+      model: "gemini-2.5-flash",
       contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
     });
     let cleaned = parseAIJSON(response.text);
     console.log(cleaned);
@@ -137,7 +163,9 @@ Return ONLY the final JSON object.
     return cleaned;
   } catch (err) {
     console.log(err);
-    throw new AppError(err.errors?.[0].message || "Invalid Ai Response", 500);
+    if (err instanceof AppError) throw err;
+    const message = err.errors?.[0]?.message || err.message || "Invalid Ai Response";
+    throw new AppError(message, 500);
   }
 };
 
