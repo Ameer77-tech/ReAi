@@ -17,47 +17,49 @@ const Projects = ({ data }: ProjectsProps) => {
   if (!data || data.length === 0) return null;
 
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-2 mt-4 p-0">
-      <CardTitle className="text-cyan-900 text-lg tracking-wide">
+    <Card className="bg-transparent rounded-none border-0 shadow-none p-0">
+      <CardTitle className="text-cyan-900 text-base font-bold tracking-wide mb-1">
         Projects
       </CardTitle>
 
       <CardContent className="p-0 text-black">
         {data.map((p, idx) => (
-          <div key={idx} className="mb-5">
+          <div key={idx} className="mb-3">
             {/* Header row */}
-            <div className="grid grid-cols-1 items-start">
-              <div className="col-span-2">
-                <p className="text-lg leading-tight font-bold">
-                  {p.name}
-                </p>
-              </div>
-
+            <div>
+              <p className="text-sm leading-tight font-bold text-black">
+                {p.name}
+              </p>
               {p.link && (
-                <p className="text-sm whitespace-nowrap  italic text-gray-600">
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs italic text-gray-600 hover:underline block truncate max-w-[340px]"
+                >
                   {p.link}
-                </p>
+                </a>
               )}
             </div>
 
             {/* Description */}
             {p.description && (
-              <p className="mt-1 font-medium text-sm leading-relaxed max-w-[90%] ">
+              <p className="mt-0.5 font-medium text-xs leading-relaxed text-gray-800">
                 {p.description}
               </p>
             )}
 
             {/* Tools Used */}
             {p.tools_used && p.tools_used.length > 0 && (
-              <p className="mt-1 text-sm font-bold">
-                <span className="font-bold">Tools Used:</span>{" "}
+              <p className="mt-0.5 text-xs font-semibold text-gray-800">
+                <span className="font-bold text-black">Tools Used:</span>{" "}
                 {p.tools_used.join(", ")}
               </p>
             )}
 
             {/* Outcomes */}
             {p.outcomes && p.outcomes.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-sm  italic text-gray-600">
+              <ul className="mt-0.5 ml-4 list-disc text-xs italic text-gray-600 leading-relaxed space-y-0.5">
                 {p.outcomes.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

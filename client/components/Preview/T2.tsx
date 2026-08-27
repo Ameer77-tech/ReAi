@@ -12,13 +12,13 @@ import Projects from "./components/t2/Projects";
 const T2 = ({ data }: TProps) => {
   return (
     <>
-        <div
-             className={cn(
-               "bg-white lg:scale-100 md:scale-100 origin-top-left lg:max-w-[800px] aspect-[1/1.414] p-6 sm:p-8 md:p-10",
-               manrope.className,
-               "antialiased mx-auto"
-             )}
-           >
+      <div
+        className={cn(
+          "bg-white w-full max-w-[800px] min-h-[1040px] p-6 sm:p-7 md:p-8",
+          manrope.className,
+          "antialiased mx-auto"
+        )}
+      >
         <Header
           data={{ header: data?.header, contact: data?.contact_information }}
         />

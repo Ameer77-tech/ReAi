@@ -24,25 +24,28 @@ const Projects = ({ data }: ProjectsProps) => {
 
       <CardContent className="p-0 text-black">
         {data.map((p, idx) => (
-          <div key={idx} className="mb-5">
+          <div key={idx} className="mb-4">
             {/* Header row */}
-            <div className="grid grid-cols-3 gap-2 items-start">
-              <div className="col-span-2">
-                <p className="text-lg leading-tight font-bold">
-                  {idx + 1}) {p.name}
-                </p>
-              </div>
+            <div className="grid grid-cols-[1fr_auto] gap-2 items-baseline">
+              <p className="text-sm font-bold leading-tight">
+                {idx + 1}) {p.name}
+              </p>
 
               {p.link && (
-                <p className="text-xs text-right whitespace-nowrap text-blue-600">
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-right text-blue-600 hover:underline truncate max-w-[260px]"
+                >
                   {p.link}
-                </p>
+                </a>
               )}
             </div>
 
             {/* Description */}
             {p.description && (
-              <p className="mt-1 text-xs leading-relaxed max-w-[90%]">
+              <p className="mt-1 text-xs leading-relaxed">
                 {p.description}
               </p>
             )}
@@ -57,7 +60,7 @@ const Projects = ({ data }: ProjectsProps) => {
 
             {/* Outcomes */}
             {p.outcomes && p.outcomes.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs">
+              <ul className="mt-1 ml-4 list-disc text-xs space-y-0.5">
                 {p.outcomes.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

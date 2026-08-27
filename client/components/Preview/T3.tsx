@@ -14,14 +14,21 @@ const T3 = ({ data }: TProps) => {
     <>
       <div
         className={cn(
-          "bg-white lg:scale-100 md:scale-100 origin-top-left lg:max-w-[800px] aspect-[1/1.414] p-6 sm:p-8 md:p-10",
+          "bg-white w-full max-w-[800px] min-h-[1040px] p-6 sm:p-7 md:p-8",
           manrope.className,
           "antialiased mx-auto"
         )}
+        style={{ width: "100%", maxWidth: "800px", minHeight: "1040px", boxSizing: "border-box" }}
       >
-        <div className="grid grid-cols-[1fr_1.6fr] h-auto gap-6">
+        <div
+          className="grid grid-cols-[200px_1fr] h-auto gap-5"
+          style={{ display: "grid", gridTemplateColumns: "200px 1fr", gap: "20px" }}
+        >
           {/* Left column - compact sidebar */}
-          <aside className="flex flex-col gap-6 border-r border-r-muted-foreground">
+          <aside
+            className="flex flex-col gap-4 border-r border-r-gray-300 pr-4"
+            style={{ display: "flex", flexDirection: "column", gap: "16px", borderRight: "1px solid #d1d5db", paddingRight: "16px" }}
+          >
             <Header
               data={{
                 header: data?.header,
@@ -33,9 +40,12 @@ const T3 = ({ data }: TProps) => {
           </aside>
 
           {/* Right column - main content */}
-          <main className="flex flex-col">
-            <div className="text-left">
-              <h1 className="text-5xl font-bold leading-none text-gray-600 h-20 flex items-center">
+          <main
+            className="flex flex-col gap-3 pl-1"
+            style={{ display: "flex", flexDirection: "column", gap: "12px", paddingLeft: "4px" }}
+          >
+            <div className="text-left mb-1">
+              <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-gray-700">
                 <span>{data?.header?.full_name ?? ""}</span>
               </h1>
             </div>
