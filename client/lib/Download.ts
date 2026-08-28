@@ -23,6 +23,13 @@ const download = async (
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
+    @page {
+      size: A4 portrait;
+      margin-top: 10mm;
+      margin-bottom: 10mm;
+      margin-left: 8mm;
+      margin-right: 8mm;
+    }
     html, body {
       margin: 0;
       padding: 0;
@@ -30,10 +37,10 @@ const download = async (
       background: white;
       font-family: 'Manrope', sans-serif;
     }
-    @page {
-      size: A4 portrait;
-      margin: 0;
-    }
+    .text-xs { font-size: 0.8125rem !important; line-height: 1.35 !important; }
+    .text-\\[11px\\] { font-size: 0.75rem !important; line-height: 1.35 !important; }
+    .text-sm { font-size: 0.9375rem !important; line-height: 1.35 !important; }
+    .text-base { font-size: 1.0625rem !important; line-height: 1.35 !important; }
   </style>
 </head>
 <body class="bg-white">

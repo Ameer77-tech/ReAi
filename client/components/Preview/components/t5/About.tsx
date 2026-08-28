@@ -12,7 +12,7 @@ const About = ({ data }: AboutProps) => {
       <CardTitle className="text-black font-bold text-base uppercase tracking-wide border-b border-black pb-0.5 mb-1.5">
         About Me
       </CardTitle>
-      <CardContent className="text-black/80 text-xs font-medium leading-relaxed p-0">
+      <CardContent className="text-gray-800 text-xs font-medium leading-relaxed p-0">
         {data ??
           "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam fuga voluptate quia eveniet iure necessitatibus ipsam totam rem dolorum, quae cum aperiam et laborum deserunt dolor vitae saepe esse beatae!"}
       </CardContent>

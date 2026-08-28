@@ -40,19 +40,19 @@ const WorkExp = ({ data }: WorkExpProps) => {
                   {w.job_title}
                 </p>
                 {w.employer && (
-                  <p className="text-xs font-semibold text-black/80">{w.employer}</p>
+                  <p className="text-xs font-semibold text-gray-800">{w.employer}</p>
                 )}
-                {w.location && <p className="text-[11px] text-black/60">{w.location}</p>}
+                {w.location && <p className="text-[11px] text-gray-600">{w.location}</p>}
               </div>
 
-              <p className="text-xs whitespace-nowrap text-right text-black/70">
+              <p className="text-xs whitespace-nowrap text-right text-gray-700">
                 {w.start_date} – {w.end_date}
               </p>
             </div>
 
             {/* Achievements */}
             {w.achievements && w.achievements.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs text-black/80 leading-relaxed space-y-0.5">
+              <ul className="mt-1 ml-4 list-disc text-xs text-gray-800 leading-relaxed space-y-0.5">
                 {w.achievements.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

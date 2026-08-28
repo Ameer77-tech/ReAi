@@ -19,12 +19,12 @@ const Header = ({ data }: HeaderProps) => {
       </CardTitle>
 
       {data?.header?.professional_title && (
-        <CardContent className="capitalize text-sm font-semibold text-black/75 text-center p-0 mt-0.5">
+        <CardContent className="capitalize text-sm font-semibold text-gray-800 text-center p-0 mt-0.5">
           {data.header.professional_title}
         </CardContent>
       )}
 
-      <CardFooter className="text-black/75 text-xs flex flex-wrap justify-center items-center gap-x-4 gap-y-1 p-0 py-2 w-full">
+      <CardFooter className="text-gray-800 text-xs flex flex-wrap justify-center items-center gap-x-4 gap-y-1 p-0 py-2 w-full">
         {data?.contact?.phone && (
           <div className="flex gap-1 items-center">
             <PhoneIcon className="size-3.5 text-black" />
