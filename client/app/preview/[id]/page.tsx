@@ -5,8 +5,8 @@ import T3 from "@/components/Preview/T3";
 import T4 from "@/components/Preview/T4";
 import T5 from "@/components/Preview/T5";
 import ChangeTemplate from "@/components/Preview/components/Toptions";
+import A4PageWrapper from "@/components/Preview/components/A4PageWrapper";
 import HomeRedirect from "@/components/HomeRedirect";
-
 
 type PageProps = {
   params: {
@@ -36,7 +36,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
       headers: {
         "content-type": "application/json",
       },
-      cache: "no-store",
+      cache: "force-cache",
     });
 
     res = await response.json();
@@ -58,22 +58,23 @@ const Page = async ({ params, searchParams }: PageProps) => {
     <>
       <HomeRedirect />
       <div className="flex lg:flex-row md:flex-row flex-col-reverse justify-center items-center lg:justify-evenly lg:items-start gap-5 lg:gap-0 md:gap-0 min-h-screen overflow-scroll p-10">
-        {template === 5 ? (
-          <T5 data={res.resume} />
-        ) : template === 1 ? (
-          <T1 data={res.resume} />
-        ) : template === 2 ? (
-          <T2 data={res.resume} />
-        ) : template === 3 ? (
-          <T3 data={res.resume} />
-        ) : template === 4 ? (
-          <T4 data={res.resume} />
-        ) : (
-          <T5 data={res.resume} />
-        )}
+        <A4PageWrapper>
+          {template === 5 ? (
+            <T5 data={res.resume} />
+          ) : template === 1 ? (
+            <T1 data={res.resume} />
+          ) : template === 2 ? (
+            <T2 data={res.resume} />
+          ) : template === 3 ? (
+            <T3 data={res.resume} />
+          ) : template === 4 ? (
+            <T4 data={res.resume} />
+          ) : (
+            <T5 data={res.resume} />
+          )}
+        </A4PageWrapper>
         <ChangeTemplate t={template} />
         <DownloadBtn data={res.resume} />
-      
       </div>
     </>
   ) : (

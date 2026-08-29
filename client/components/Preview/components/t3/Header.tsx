@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import type { ContactInformation, HeaderSchema } from "@/types/preview";
 import React from "react";
 
@@ -11,17 +11,23 @@ type HeaderProps = {
 
 const Header = ({ data }: HeaderProps) => {
   return (
-    <Card className="bg-transparent rounded-none border-0 shadow-none gap-1 p-0 border-r-5 border-r-cyan-900">
-      <CardContent className="text-black font-bold text-sm w-full p-0">
-        <div className="flex gap-1 items-center ">
-          {data?.contact?.email ?? ""}
-        </div>
-        <div className="flex gap-1 items-center mt-2">
-          {data?.contact?.phone ?? ""}
-        </div>
-        <div className="flex gap-1 items-center mt-2">
-          {data?.contact?.location ?? ""}
-        </div>
+    <Card className="bg-transparent rounded-none border-0 shadow-none p-0">
+      <CardContent className="text-black text-xs font-semibold w-full p-0 space-y-1.5 break-all">
+        {data?.contact?.email && (
+          <div className="flex gap-1 items-center">
+            {data.contact.email}
+          </div>
+        )}
+        {data?.contact?.phone && (
+          <div className="flex gap-1 items-center">
+            {data.contact.phone}
+          </div>
+        )}
+        {data?.contact?.location && (
+          <div className="flex gap-1 items-center">
+            {data.contact.location}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

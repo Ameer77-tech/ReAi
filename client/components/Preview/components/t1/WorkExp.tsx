@@ -32,21 +32,25 @@ const WorkExp = ({ data }: WorkExpProps) => {
 
       <CardContent className="p-0 text-black">
         {workExperience.map((w, idx) => (
-          <div key={idx} className="mb-5">
+          <div key={idx} className="mb-4">
             {/* Header row */}
-            <div className="grid grid-cols-3 gap-2 items-start">
-              <div>
-                <p className="text-lg leading-tight font-bold">{w.job_title}</p>
-              </div>
+            <div className="grid grid-cols-[1fr_auto] gap-2 items-baseline">
+              <p className="text-sm font-bold leading-tight">
+                {w.job_title}{w.employer ? `, ${w.employer}` : ""}
+              </p>
 
-              <p className="text-sm whitespace-nowrap col-span-2 text-center">
+              <p className="text-xs font-semibold whitespace-nowrap text-right">
                 {w.start_date} – {w.end_date}
               </p>
             </div>
 
+            {w.location && (
+              <p className="text-xs text-black/70 italic mt-0.5">{w.location}</p>
+            )}
+
             {/* Achievements */}
             {w.achievements && w.achievements.length > 0 && (
-              <ul className="mt-1 ml-4 list-disc text-xs">
+              <ul className="mt-1 ml-4 list-disc text-xs space-y-0.5">
                 {w.achievements.map((point, pIdx) => (
                   <li key={pIdx}>{point}</li>
                 ))}

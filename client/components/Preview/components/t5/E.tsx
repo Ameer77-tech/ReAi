@@ -18,23 +18,25 @@ export default function E({
   honors,
 }: EProps) {
   return (
-    <div className="mb-5">
+    <div className="mb-2">
       {/* Header row */}
-      <div className="grid grid-cols-[1fr_auto] gap-2 items-start">
+      <div className="flex justify-between items-baseline gap-2">
         <div>
-          <p className="text-sm">
-            {degree} in {fieldOfStudy}
+          <p className="font-bold text-xs leading-tight text-black">
+            {degree} {fieldOfStudy ? `in ${fieldOfStudy}` : ""}
           </p>
-          <p className="font-semibold text-sm leading-tight">{institute}</p>
-          <p className="text-xs">{location}</p>
+          <p className="font-semibold text-xs text-gray-900">{institute}</p>
+          {location && <p className="text-[11px] text-gray-600">{location}</p>}
         </div>
 
-        <p className="text-xs whitespace-nowrap">{gradYear}</p>
+        <p className="text-xs font-semibold whitespace-nowrap text-right text-gray-700">
+          {gradYear}
+        </p>
       </div>
 
       {/* Honors */}
       {honors.length > 0 && (
-        <ul className="mt-1 ml-4 list-disc text-xs">
+        <ul className="mt-0.5 ml-4 list-disc text-[11px] text-gray-700 space-y-0.5">
           {honors.map((honor, idx) => (
             <li key={idx}>{honor}</li>
           ))}

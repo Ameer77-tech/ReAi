@@ -41,113 +41,52 @@ export function parseAIJSON(rawString) {
   return rawString;
 }
 
-const generateAiResponse = async (ai, userData) => {
-  const prompt = `
-You are a professional resume writer AI.
+const generateAiResponse = async (ai, rawUserData) => {
+  const userData = rawUserData.toObject ? rawUserData.toObject() : rawUserData;
 
-Your task is to generate a polished, ATS-optimized resume
-STRICTLY in VALID JSON that EXACTLY matches the schema below.
+  // Extract only user fields requested for AI polishing
+  const aiInput = {
+    professional_title: userData.header?.professional_title || "",
+    professional_summary: userData.professional_summary || "",
+    work_achievements: (userData.work_experience || []).map(
+      (w) => w.achievements || []
+    ),
+    education_honors: (userData.education || []).map(
+      (e) => e.honors || []
+    ),
+    projects: (userData.projects || []).map((p) => ({
+      description: p.description || "",
+      outcomes: p.outcomes || [],
+    })),
+    key_skills: userData.key_skills || {},
+  };
 
-User-provided data:
-${JSON.stringify(userData)}
+  const prompt = `You are a professional resume editor AI.
+Improve grammar, clarity, professionalism, and formatting for the provided user input fields.
 
-====================
-MANDATORY OUTPUT RULES
-====================
-1. Output ONLY valid JSON — no markdown, no explanations, no comments.
-2. Use ONLY standard ASCII double quotes (").
-3. Do NOT add fields not listed in the schema.
-4. Do NOT remove required fields.
-5. If input data is missing, include the field with:
-   - empty string "" for strings
-   - empty array [] for arrays
-   - empty object {} for objects
-6. Preserve all factual data — do NOT invent companies, dates, degrees, or metrics.
-7. Fix grammar, spelling, capitalization, and formatting.
-8. Ensure arrays exist even if empty.
-9. Output MUST pass strict schema validation.
+Input Text:
+${JSON.stringify(aiInput)}
 
-====================
-REQUIRED JSON STRUCTURE
-====================
-
+Required JSON Output Structure:
 {
-  "header": {
-    "full_name": string,
-    "professional_title": string
-  },
-
-  "contact_information": {
-    "phone": string,
-    "email": string,
-    "location": string,
-    "linkedin": string,
-    "website": string,
-    "github": string
-  },
-
-  "professional_summary": string,
-
-  "work_experience": [
-    {
-      "job_title": string,
-      "employer": string,
-      "location": string,
-      "start_date": string,
-      "end_date": string,
-      "achievements": string[]
-    }
-  ],
-
-  "education": [
-    {
-      "degree": string,
-      "field_of_study": string,
-      "institution": string,
-      "location": string,
-      "graduation_year": string,
-      "honors": string[]
-    }
-  ],
-
-  "key_skills": {
-    "marketing": string[],
-    "analytics": string[],
-    "tools": string[],
-    "soft_skills": string[]
-  },
-
-  "projects": [
-    {
-      "name": string,
-      "description": string,
-      "outcomes": string[],
-      "tools_used": string[],
-      "link": string
-    }
-  ],
-
-  "certifications": [
-    {
-      "name": string,
-      "organization": string,
-      "date_obtained": string
-    }
-  ]
+  "professional_title": "Polished professional title",
+  "professional_summary": "Polished 2-3 sentence ATS summary",
+  "work_achievements": [ ["Bullet 1", "Bullet 2"] ],
+  "education_honors": [ ["Honor 1"] ],
+  "projects": [ { "description": "Polished project description", "outcomes": ["Outcome 1"] } ],
+  "key_skills": { "marketing": [], "analytics": [], "tools": [], "soft_skills": [] }
 }
 
-====================
-CONTENT QUALITY RULES
-====================
-- Use strong action verbs in achievements (e.g., Led, Optimized, Increased, Implemented).
-- Achievements must be concise and results-focused.
-- Standardize capitalization for job titles, employers, institutions, tools, and skills.
-- Remove duplicate skills.
-- Ensure professional_summary is 2–4 concise lines.
-- Format dates consistently (YYYY or YYYY–YYYY).
-
-Return ONLY the final JSON object.
-`;
+STRICT RULES:
+1. Return ONLY the final JSON object matching the exact output structure.
+2. For key_skills: ONLY clean, deduplicate, or categorize existing skills provided in input. Do NOT invent or add new skills.
+3. Do not invent facts, metrics, numbers, technologies, responsibilities, achievements, or outcomes.
+4. Do not exaggerate the user's experience.
+5. Do not add words such as "critical", "senior", "significant", "optimized", "increased", "improved performance", or similar claims unless clearly supported by the original text.
+6. Preserve original meaning and factual information.
+7. You may rewrite and restructure the text, but every claim in the improved version must be supported by the user's original input.
+8. Keep names, dates, institutions, contact details, URLs, technologies, and other factual fields unchanged.
+9. Keep exact array lengths for work_achievements, education_honors, and projects matching input.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -157,14 +96,77 @@ Return ONLY the final JSON object.
         responseMimeType: "application/json",
       },
     });
-    let cleaned = parseAIJSON(response.text);
-    console.log(cleaned);
-    ResumeSchema.parse(cleaned);
-    return cleaned;
+
+    const aiResult = parseAIJSON(response.text) || {};
+    console.log("AI Result:", aiResult);
+
+    // Merge user's original fixed personal metadata with AI-polished text sections
+    const mergedResume = {
+      header: {
+        full_name: userData.header?.full_name || "",
+        professional_title:
+          aiResult.professional_title || userData.header?.professional_title || "",
+      },
+      contact_information: userData.contact_information,
+
+      professional_summary:
+        aiResult.professional_summary || userData.professional_summary || "",
+
+      work_experience: (userData.work_experience || []).map((w, idx) => ({
+        job_title: w.job_title,
+        employer: w.employer,
+        location: w.location || "",
+        start_date: w.start_date,
+        end_date: w.end_date || "",
+        achievements:
+          Array.isArray(aiResult.work_achievements?.[idx]) &&
+          aiResult.work_achievements[idx].length > 0
+            ? aiResult.work_achievements[idx]
+            : w.achievements || [],
+      })),
+
+      education: (userData.education || []).map((e, idx) => ({
+        degree: e.degree,
+        field_of_study: e.field_of_study || "",
+        institution: e.institution,
+        location: e.location || "",
+        graduation_year: e.graduation_year,
+        honors:
+          Array.isArray(aiResult.education_honors?.[idx])
+            ? aiResult.education_honors[idx]
+            : e.honors || [],
+      })),
+
+      key_skills:
+        aiResult.key_skills && Object.keys(aiResult.key_skills).length > 0
+          ? aiResult.key_skills
+          : userData.key_skills || {
+              marketing: [],
+              analytics: [],
+              tools: [],
+              soft_skills: [],
+            },
+
+      projects: (userData.projects || []).map((p, idx) => ({
+        name: p.name,
+        description:
+          aiResult.projects?.[idx]?.description || p.description || "",
+        outcomes:
+          aiResult.projects?.[idx]?.outcomes || p.outcomes || [],
+        tools_used: p.tools_used || [],
+        link: p.link || "",
+      })),
+
+      certifications: userData.certifications || [],
+    };
+
+    ResumeSchema.parse(mergedResume);
+    return mergedResume;
   } catch (err) {
     console.log(err);
     if (err instanceof AppError) throw err;
-    const message = err.errors?.[0]?.message || err.message || "Invalid Ai Response";
+    const message =
+      err.errors?.[0]?.message || err.message || "Invalid AI Response";
     throw new AppError(message, 500);
   }
 };

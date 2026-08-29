@@ -7,15 +7,16 @@ type SkillsProps = {
 };
 
 const defaultSkills: string[] = [
-  "Digital Marketing",
-  "SEO & SEM",
-  "Content Strategy",
-  "Google Analytics",
-  "Data Interpretation",
-  "Google Ads",
-  "Meta Ads Manager",
-  "Communication",
-  "Problem Solving",
+  "React.js",
+  "Next.js",
+  "JavaScript",
+  "Tailwind CSS",
+  "Node.js",
+  "Express.js",
+  "MongoDB",
+  "REST APIs",
+  "Git",
+  "GitHub",
 ];
 
 const Skills = ({ data }: SkillsProps) => {
@@ -24,13 +25,13 @@ const Skills = ({ data }: SkillsProps) => {
     : defaultSkills;
 
   return (
-    <Card className="bg-transparent rounded-none shadow-none border-0 gap-2 p-0 mt-5">
-      <CardTitle className="text-xl tracking-wide text-cyan-900">
+    <Card className="bg-transparent rounded-none shadow-none border-0 p-0">
+      <CardTitle className="text-base tracking-wide text-cyan-900 font-bold mb-1">
         Skills
       </CardTitle>
 
-      <CardContent className="p-0 text-black font-medium space-y-1 text-sm">
-        {skills.slice(0,10).map((skill, index) => (
+      <CardContent className="p-0 text-black font-medium space-y-0.5 text-xs">
+        {skills.slice(0, 10).map((skill, index) => (
           <p key={index} className="leading-snug">
             • {skill}
           </p>
